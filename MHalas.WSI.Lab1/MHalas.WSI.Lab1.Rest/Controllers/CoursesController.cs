@@ -6,27 +6,27 @@ using System.Linq;
 namespace MHalas.WSI.Lab1.Rest.Controllers
 {
     [RoutePrefix("students/{studentID}/courses")]
-    public class CoursesController : ApiController, IBaseController<Course>
+    public class CoursesController : BaseApiController<Course, string>, IBaseController<Course, string>
     {
-        private List<Course> _list = new List<Course>()
+        private List<Course> _items = new List<Course>()
         {
-            new Course() {Name="aaaa", LeadTeacher="Tester", StudentId="1234"},
-            new Course() {Name="aaaa", LeadTeacher="Tester", StudentId="3456"},
-            new Course() {Name="bbbb", LeadTeacher="Maciej", StudentId="1234"},
-            new Course() {Name="bbbb", LeadTeacher="Maciej", StudentId="2345"},
+            new Course() {Identity="aaaa", LeadTeacher="Tester", StudentId="1234"},
+            new Course() {Identity="aaaa", LeadTeacher="Tester", StudentId="3456"},
+            new Course() {Identity="bbbb", LeadTeacher="Maciej", StudentId="1234"},
+            new Course() {Identity="bbbb", LeadTeacher="Maciej", StudentId="2345"},
         };
-        public List<Course> Items
-            => _list;
+        public override List<Course> Items
+            => _items;
 
-        public Course Delete(string keyValue)
-        {
-            throw new System.NotImplementedException();
-        }
+        [Route("{courseName}")]
+        [HttpDelete]
+        public Course Delete(string id)
+            => DeleteMethod(id);
 
+        [Route()]
+        [HttpGet]
         public IEnumerable<Course> Get()
-        {
-            throw new System.NotImplementedException();
-        }
+            => GetMethod();
 
         [Route()]
         [HttpGet]
@@ -39,17 +39,17 @@ namespace MHalas.WSI.Lab1.Rest.Controllers
         [HttpGet]
         public IEnumerable<Course> GetCoursesByStudentIdAndCourseName(string studentId, string courseName)
         {
-            return Items.Where(x => x.StudentId == studentId && x.Name == courseName);
+            return Items.Where(x => x.StudentId == studentId && x.Identity == courseName);
         }
 
-        public Course Post([FromBody] Course newModel)
-        {
-            throw new System.NotImplementedException();
-        }
+        [Route()]
+        [HttpPost]
+        public Course Post([FromBody] Course course)
+            => PostMethod(course);
 
-        public Course Put([FromBody] Course newModel)
-        {
-            throw new System.NotImplementedException();
-        }
+        [Route()]
+        [HttpPut]
+        public Course Put([FromBody] Course course)
+            => PutMethod(course);
     }
 }

@@ -7,24 +7,18 @@ using System.Linq;
 namespace MHalas.WSI.Lab1.Rest.Controllers
 {
     [RoutePrefix("students/{studentID}")]
-    public class GradesController : ApiController, IBaseController<Grade>
+    public class GradesController : BaseApiController<Grade, string>, IBaseController<Grade, string>
     {
         private List<Grade> _items = new List<Grade>()
         {
             new Grade() { GradeValue = 4, StudentId = "1234", CourseName="aaaa", AddedDate = new DateTime(2018,01,23) },
         };
-        public List<Grade> Items
+        public override List<Grade> Items
             => _items;
 
-        public Grade Delete(string keyValue)
-        {
-            throw new NotImplementedException();
-        }
-
+        [Route("~/grades")]
         public IEnumerable<Grade> Get()
-        {
-            throw new NotImplementedException();
-        }
+            => GetMethod();
 
         [Route("grades")]
         [HttpGet]
@@ -40,14 +34,13 @@ namespace MHalas.WSI.Lab1.Rest.Controllers
             return Items.Where(x => x.StudentId == studentID && x.CourseName == courseName);
         }
 
-        public Grade Post([FromBody] Grade newModel)
-        {
-            throw new NotImplementedException();
-        }
+        public Grade Post([FromBody] Grade grade)
+            => PostMethod(grade);
 
-        public Grade Put([FromBody] Grade newModel)
-        {
-            throw new NotImplementedException();
-        }
+        public Grade Put([FromBody] Grade grade)
+            => PutMethod(grade);
+
+        public Grade Delete(string id)
+            => DeleteMethod(id)
     }
 }

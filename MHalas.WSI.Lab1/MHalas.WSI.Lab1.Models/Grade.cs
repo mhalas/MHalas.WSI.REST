@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace MHalas.WSI.Lab1.Models
 {
-    public class Grade
+    public class Grade: IId<string>
     {
-        [Key]
+        public string Identity { get => $"{StudentId},{CourseName},{GradeValue}"; set => Identity = value; }
+
         public float GradeValue { get; set; }
         public DateTime AddedDate { get; set; }
 
         public string StudentId { get; set; }
         public string CourseName { get; set; }
-
     }
 }

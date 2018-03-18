@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MHalas.WSI.Lab1.Rest.Controllers;
 using System.Linq;
+using MHalas.WSI.Lab1.Models;
 
 namespace MHalas.WSI.Lab1.Rest.Tests.Controllers
 {
@@ -15,7 +16,7 @@ namespace MHalas.WSI.Lab1.Rest.Tests.Controllers
             controller.Items.Clear();
             controller.Items.Add(new Models.Student()
             {
-                IndexNumber = "138553",
+                Identity = "138553",
                 Name = "Maciej",
                 Surname = "Halas",
                 BirthDate = new DateTime(1992, 05, 19)
@@ -31,7 +32,7 @@ namespace MHalas.WSI.Lab1.Rest.Tests.Controllers
             var controller = new StudentsController();
             controller.Items.Add(new Models.Student()
             {
-                IndexNumber = "138553",
+                Identity = "138553",
                 Name = "Maciej",
                 Surname = "Halas",
                 BirthDate = new DateTime(1992, 05, 19)
@@ -48,12 +49,12 @@ namespace MHalas.WSI.Lab1.Rest.Tests.Controllers
             var controller = new StudentsController();
             controller.Post(new Models.Student()
             {
-                IndexNumber = "138553",
+                Identity = "138553",
                 Name = "Maciej",
                 Surname = "Halas",
                 BirthDate = new DateTime(1992, 05, 19)
             });
-            var result = controller.Items.Where(x => x.IndexNumber == "138553").SingleOrDefault();
+            var result = controller.Items.Where(x => x.Identity == "138553").SingleOrDefault();
             Assert.IsNotNull(result);
         }
 
@@ -62,7 +63,7 @@ namespace MHalas.WSI.Lab1.Rest.Tests.Controllers
         {
             var studentToEdit = new Models.Student()
             {
-                IndexNumber = "138553",
+                Identity = "138553",
                 Name = "Maciej",
                 Surname = "Halas",
                 BirthDate = new DateTime(1992, 05, 19)
@@ -78,7 +79,7 @@ namespace MHalas.WSI.Lab1.Rest.Tests.Controllers
 
             var putResult = controller.Put(studentToEdit);
             Assert.IsNotNull(putResult);
-            var getResult = controller.Get(studentToEdit.IndexNumber);
+            var getResult = controller.Get(studentToEdit.Identity);
 
             Assert.AreEqual("Changed", getResult.Name);
             Assert.AreEqual("Changed", getResult.Surname);
@@ -90,7 +91,7 @@ namespace MHalas.WSI.Lab1.Rest.Tests.Controllers
         {
             var studentToEdit = new Models.Student()
             {
-                IndexNumber = "138553",
+                Identity = "138553",
                 Name = "Maciej",
                 Surname = "Halas",
                 BirthDate = new DateTime(1992, 05, 19)
@@ -99,7 +100,7 @@ namespace MHalas.WSI.Lab1.Rest.Tests.Controllers
             controller.Items.Clear();
             controller.Items.Add(studentToEdit);
 
-            var putResult = controller.Put(studentToEdit);
+            var putResult = controller.Put(new Student() { Identity = "x", Name="Changed", Surname="Changed", BirthDate = new DateTime(2000,02,02)});
             Assert.IsNull(putResult);
         }
 
@@ -110,7 +111,7 @@ namespace MHalas.WSI.Lab1.Rest.Tests.Controllers
             controller.Items.Clear();
             controller.Items.Add(new Models.Student()
             {
-                IndexNumber = "138553",
+                Identity = "138553",
                 Name = "Maciej",
                 Surname = "Halas",
                 BirthDate = new DateTime(1992, 05, 19)
