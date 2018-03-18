@@ -12,6 +12,7 @@ namespace MHalas.WSI.Lab1.Models
         [Key]
         public string Name { get; set; }
         public string LeadTeacher { get; set; }
-        public List<Grade> Grades { get; set; }
+
+        public string StudentId { get; set; }
     }
 }

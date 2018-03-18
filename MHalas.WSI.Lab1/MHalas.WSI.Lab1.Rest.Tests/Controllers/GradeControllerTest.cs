@@ -7,12 +7,12 @@ namespace MHalas.WSI.Lab1.Rest.Tests.Controllers
     [TestClass]
     public class GradeControllerTest
     {
-        GradeController controller;
+        GradesController controller;
 
         [TestInitialize]
         public void TestInit()
         {
-            controller = new GradeController();
+            controller = new GradesController();
         }
 
         [TestMethod]

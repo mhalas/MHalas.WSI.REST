@@ -12,6 +12,9 @@ namespace MHalas.WSI.Lab1.Models
         [Key]
         public float GradeValue { get; set; }
         public DateTime AddedDate { get; set; }
-        public Student Student { get; set; }
+
+        public string StudentId { get; set; }
+        public string CourseName { get; set; }
+
     }
 }
