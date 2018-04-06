@@ -41,6 +41,6 @@ namespace MHalas.WSI.Lab1.Rest.Controllers
             => PutMethod(grade);
 
         public Grade Delete(string id)
-            => DeleteMethod(id)
+            => DeleteMethod(id);
     }
 }
