@@ -7,14 +7,14 @@ using System.Linq;
 namespace MHalas.WSI.Lab1.Rest.Controllers
 {
     [RoutePrefix("students")]
-    public class StudentsController : BaseApiController<Student, string>, IBaseController<Student, string>
+    public class StudentsController : BaseApiController<Student, int>, IBaseController<Student, int>
     {
         private List<Student> _list = new List<Student>()
         {
-            new Student() {Identity="1234", Name="Maciej", Surname="Halas", BirthDate=new DateTime(1992,05,19) },
-            new Student() {Identity="2345", Name="Maciej", Surname="Halas", BirthDate=new DateTime(1992,05,19) },
-            new Student() {Identity="3456", Name="Maciej", Surname="Halas", BirthDate=new DateTime(1992,05,19) },
-            new Student() {Identity="4567", Name="Maciej", Surname="Halas", BirthDate=new DateTime(1992,05,19) },
+            new Student() {ID=1, Name="Maciej", Surname="Halas", BirthDate=new DateTime(1992,05,19) },
+            new Student() {ID=2, Name="Test", Surname="1", BirthDate=new DateTime(1992,05,19) },
+            new Student() {ID=3, Name="Test", Surname="2", BirthDate=new DateTime(1992,05,19) },
+            new Student() {ID=4, Name="Test", Surname="3", BirthDate=new DateTime(1992,05,19) },
         };
 
         public override List<Student> Items
@@ -27,22 +27,22 @@ namespace MHalas.WSI.Lab1.Rest.Controllers
 
         [Route("{studentID}")]
         [HttpGet]
-        public Student Get(string studentID)
+        public IHttpActionResult Get(int studentID)
             => GetMethod(studentID);
 
         [Route()]
         [HttpPost]
-        public Student Post([FromBody]Student student)
+        public IHttpActionResult Post([FromBody]Student student)
             => PostMethod(student);
 
-        [Route()]
+        [Route("{studentID}")]
         [HttpPut]
-        public Student Put([FromBody] Student student)
-            => PutMethod(student);
+        public IHttpActionResult Put(int studentID, [FromBody] Student student)
+            => PutMethod(studentID, student);
 
         [Route("{studentID}")]
         [HttpDelete]
-        public Student Delete(string studentID)
+        public Student Delete(int studentID)
             => DeleteMethod(studentID);
     }
 }

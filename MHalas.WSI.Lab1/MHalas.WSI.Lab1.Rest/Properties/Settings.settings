@@ -9,7 +9,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="MediaTypeHeaderValue" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">text/html</Value>
+      <Value Profile="(Default)">application/json</Value>
     </Setting>
   </Settings>
 </SettingsFile>

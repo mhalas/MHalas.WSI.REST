@@ -149,6 +149,7 @@
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\IBaseController.cs" />
     <Compile Include="Controllers\GradesController.cs" />
+    <Compile Include="Controllers\StudentCoursesController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Global.asax.cs">

@@ -43,7 +43,7 @@ namespace MHalas.WSI.Lab1.Rest.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("text/html")]
+        [global::System.Configuration.DefaultSettingValueAttribute("application/json")]
         public string MediaTypeHeaderValue {
             get {
                 return ((string)(this["MediaTypeHeaderValue"]));

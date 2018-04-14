@@ -5,51 +5,40 @@ using System.Linq;
 
 namespace MHalas.WSI.Lab1.Rest.Controllers
 {
-    [RoutePrefix("students/{studentID}/courses")]
-    public class CoursesController : BaseApiController<Course, string>, IBaseController<Course, string>
+    [RoutePrefix("courses")]
+    public class CoursesController : BaseApiController<Course, int>, IBaseController<Course, int>
     {
         private List<Course> _items = new List<Course>()
         {
-            new Course() {Identity="aaaa", LeadTeacher="Tester", StudentId="1234"},
-            new Course() {Identity="aaaa", LeadTeacher="Tester", StudentId="3456"},
-            new Course() {Identity="bbbb", LeadTeacher="Maciej", StudentId="1234"},
-            new Course() {Identity="bbbb", LeadTeacher="Maciej", StudentId="2345"},
+            new Course() {ID=1, Name="A", LeadTeacher="Tester1"},
+            new Course() {ID=2, Name="B", LeadTeacher="Tester2"},
         };
         public override List<Course> Items
             => _items;
 
-        [Route("{courseName}")]
+        [Route("{courseID}")]
         [HttpDelete]
-        public Course Delete(string id)
-            => DeleteMethod(id);
+        public Course Delete(int courseID)
+            => DeleteMethod(courseID);
 
         [Route()]
         [HttpGet]
         public IEnumerable<Course> Get()
             => GetMethod();
 
-        [Route()]
+        [Route("{courseID}")]
         [HttpGet]
-        public IEnumerable<Course> GetCoursesByStudentId(string studentId)
-        {
-            return Items.Where(x => x.StudentId == studentId);
-        }
-
-        [Route("{courseName}")]
-        [HttpGet]
-        public IEnumerable<Course> GetCoursesByStudentIdAndCourseName(string studentId, string courseName)
-        {
-            return Items.Where(x => x.StudentId == studentId && x.Identity == courseName);
-        }
+        public IHttpActionResult Get(int courseID)
+            => GetMethod(courseID);
 
         [Route()]
         [HttpPost]
-        public Course Post([FromBody] Course course)
+        public IHttpActionResult Post([FromBody] Course course)
             => PostMethod(course);
 
-        [Route()]
+        [Route("{courseID}")]
         [HttpPut]
-        public Course Put([FromBody] Course course)
-            => PutMethod(course);
+        public IHttpActionResult Put(int courseID, [FromBody] Course course)
+            => PutMethod(courseID, course);
     }
 }

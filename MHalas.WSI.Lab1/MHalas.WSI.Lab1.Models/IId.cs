@@ -10,6 +10,6 @@ namespace MHalas.WSI.Lab1.Models
     public interface IId<T>
     {
         [Key]
-        T Identity { get; set; }
+        T ID { get; set; }
     }
 }

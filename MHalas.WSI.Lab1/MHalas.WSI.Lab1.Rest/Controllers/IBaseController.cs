@@ -12,8 +12,8 @@ namespace MHalas.WSI.Lab1.Rest.Controllers
         where Object : IId<IdentityType>, new()
     {
         IEnumerable<Object> Get();
-        Object Post([FromBody]Object newObject);
-        Object Put([FromBody]Object editedObject);
+        IHttpActionResult Post([FromBody]Object newObject);
+        IHttpActionResult Put(IdentityType ID, [FromBody]Object editedObject);
         Object Delete(IdentityType objectId);
     }
 }

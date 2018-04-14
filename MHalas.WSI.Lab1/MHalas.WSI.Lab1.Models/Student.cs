@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MHalas.WSI.Lab1.Models
 {
-    public class Student: IId<string>
+    public class Student: IId<int>
     {
-        public string Identity { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public DateTime BirthDate { get; set; }
