@@ -60,7 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\BaseRepository.cs" />
+    <Compile Include="Base\BaseMockRepository.cs" />
+    <Compile Include="Base\BaseMongoRepository.cs" />
+    <Compile Include="Base\IBaseRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

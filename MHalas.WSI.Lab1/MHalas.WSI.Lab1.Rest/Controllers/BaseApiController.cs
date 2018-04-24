@@ -13,11 +13,11 @@ namespace MHalas.WSI.Lab1.Rest.Controllers
     public abstract class BaseApiController<ObjectType> : ApiController
         where ObjectType: IId<ObjectId>
     {
-        protected BaseRepository<ObjectType> Repository { get; }
+        protected BaseMongoRepository<ObjectType> Repository { get; }
 
         public BaseApiController(string collectionName)
         {
-            Repository = new BaseRepository<ObjectType>(collectionName);
+            Repository = new BaseMongoRepository<ObjectType>(collectionName);
         }
 
         protected IHttpActionResult DeleteMethod(string objectID)

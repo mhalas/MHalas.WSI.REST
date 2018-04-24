@@ -10,15 +10,15 @@ using System.Linq.Expressions;
 
 namespace MHalas.WSI.Lab1.Repository.Base
 {
-    public class BaseRepository<TModel>
+    public class BaseMongoRepository<TModel> : IBaseRepository<TModel>
         where TModel : IId<ObjectId>
     {
-        public string _collectionName;
-        public string _databaseName;
-        public string _databaseConnectionString;
+        private string _collectionName;
+        private string _databaseName;
+        private string _databaseConnectionString;
         private MongoClient _client;
 
-        public BaseRepository(string collectionName)
+        public BaseMongoRepository(string collectionName)
         {
             _databaseName = DBConfig.DatabaseName;
             _databaseConnectionString = DBConfig.ConnectionString;

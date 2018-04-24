@@ -13,8 +13,8 @@ namespace MHalas.WSI.Lab1.Test.Repository.Base
     [TestClass]
     public class StudentRepository
     {
-        BaseRepository<Student> _studentRepository = new BaseRepository<Student>("Student");
-        BaseRepository<Course> _courseRepository = new BaseRepository<Course>("Course");
+        BaseMongoRepository<Student> _studentRepository = new BaseMongoRepository<Student>("Student");
+        BaseMongoRepository<Course> _courseRepository = new BaseMongoRepository<Course>("Course");
 
 
         [TestMethod]

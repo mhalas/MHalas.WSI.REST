@@ -10,7 +10,7 @@ namespace MHalas.WSI.Lab1.Rest.Controllers
     [RoutePrefix("students/{studentIndex}")]
     public class StudentCoursesController : BaseApiController<Student>
     {
-        private BaseRepository<Course> _courseRepository = new BaseRepository<Course>(nameof(Course));
+        private BaseMongoRepository<Course> _courseRepository = new BaseMongoRepository<Course>(nameof(Course));
 
         public StudentCoursesController() 
             : base(nameof(Student))
