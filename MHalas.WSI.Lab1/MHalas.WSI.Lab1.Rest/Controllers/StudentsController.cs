@@ -1,48 +1,76 @@
-﻿using System.Collections.Generic;
-using MHalas.WSI.Lab1.Models;
+﻿using MHalas.WSI.Lab1.Models;
+using MongoDB.Driver;
 using System;
-using System.Web.Http;
 using System.Linq;
+using System.Web.Http;
 
 namespace MHalas.WSI.Lab1.Rest.Controllers
 {
     [RoutePrefix("students")]
-    public class StudentsController : BaseApiController<Student, int>, IBaseController<Student, int>
+    public class StudentsController : BaseApiController<Student>
     {
-        private List<Student> _list = new List<Student>()
+        public StudentsController()
+            :base("Student")
         {
-            new Student() {ID=1, Name="Maciej", Surname="Halas", BirthDate=new DateTime(1992,05,19) },
-            new Student() {ID=2, Name="Test", Surname="1", BirthDate=new DateTime(1992,05,19) },
-            new Student() {ID=3, Name="Test", Surname="2", BirthDate=new DateTime(1992,05,19) },
-            new Student() {ID=4, Name="Test", Surname="3", BirthDate=new DateTime(1992,05,19) },
-        };
 
-        public override List<Student> Items
-            => _list;
+        }
 
         [Route()]
         [HttpGet]
-        public IEnumerable<Student> Get()
-            => GetMethod();
+        public IHttpActionResult Get(string firstName=null, string lastname = null)
+        {
+            var builder = Builders<Student>.Filter;
+            var filter = builder.Empty;
 
-        [Route("{studentID}")]
+            if (!string.IsNullOrEmpty(firstName))
+                filter &= builder.Eq(x => x.FirstName, firstName);
+            if (!string.IsNullOrEmpty(lastname))
+                filter &= builder.Eq(x => x.LastName, lastname);
+
+            var list = GetMethod(filter);
+
+            if (list.Count() == 0)
+                return NotFound();
+
+            return Ok(list);
+        }
+
+        [Route("{studentIndex}")]
         [HttpGet]
-        public IHttpActionResult Get(int studentID)
-            => GetMethod(studentID);
+        public IHttpActionResult Get(string studentIndex)
+        {
+
+            var list = GetMethod(x => x.Index == studentIndex);
+
+            if (list.Count() == 0)
+                return NotFound();
+
+            return Ok(list);
+        }
+            
 
         [Route()]
         [HttpPost]
         public IHttpActionResult Post([FromBody]Student student)
-            => PostMethod(student);
+        {
+            try
+            {
+                return PostMethod(student);
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
 
-        [Route("{studentID}")]
+        [Route("{studentIndex}")]
         [HttpPut]
-        public IHttpActionResult Put(int studentID, [FromBody] Student student)
-            => PutMethod(studentID, student);
+        public IHttpActionResult Put(string studentIndex, [FromBody] Student student)
+            => PutMethod(studentIndex, student);
 
-        [Route("{studentID}")]
+        [Route("{studentIndex}")]
         [HttpDelete]
-        public Student Delete(int studentID)
-            => DeleteMethod(studentID);
+        public IHttpActionResult Delete(string studentIndex)
+            => DeleteMethod(studentIndex);
     }
 }

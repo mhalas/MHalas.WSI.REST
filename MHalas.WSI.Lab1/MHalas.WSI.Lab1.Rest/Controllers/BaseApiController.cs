@@ -1,77 +1,77 @@
 ﻿using MHalas.WSI.Lab1.Models;
+using MHalas.WSI.Lab1.Repository.Base;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Linq.Expressions;
 using System.Web.Http;
 
 namespace MHalas.WSI.Lab1.Rest.Controllers
 {
-    public abstract class BaseApiController<ObjectType, IdentityType> : ApiController
-        where ObjectType : IId<IdentityType>, new()
+    public abstract class BaseApiController<ObjectType> : ApiController
+        where ObjectType: IId<ObjectId>
     {
-        public abstract List<ObjectType> Items { get; }
-        
-        protected ObjectType DeleteMethod(IdentityType objectID)
-        {
-            var objectToRemove = GetObject(objectID);
-            if (objectToRemove != null)
-                Items.Remove(objectToRemove);
+        protected BaseRepository<ObjectType> Repository { get; }
 
-            return Items.SingleOrDefault(x => x.ID.Equals(objectID));
+        public BaseApiController(string collectionName)
+        {
+            Repository = new BaseRepository<ObjectType>(collectionName);
+        }
+
+        protected IHttpActionResult DeleteMethod(string objectID)
+        {
+            var result = Repository.Delete(x => x.Id.Equals(ObjectId.Parse(objectID)));
+
+            if (result.DeletedCount == 1)
+                return Ok();
+
+            return NotFound();
         }
 
         protected IEnumerable<ObjectType> GetMethod()
         {
-            return Items;
+            return Repository.Retrieve();
         }
-
-        protected IHttpActionResult GetMethod(IdentityType objectID)
+        protected IEnumerable<ObjectType> GetMethod(params MongoDBRef[] dbRefsParams)
         {
-            var obj = GetObject(objectID);
-
-            if (obj == null)
-                return NotFound();
-
-            return Ok(obj);
+            return Repository.Retrieve(dbRefsParams.ToList());
         }
-
-        protected IHttpActionResult GetMethod(Func<ObjectType, bool> whereClause)
+        protected IEnumerable<ObjectType> GetMethod(Expression<Func<ObjectType, bool>> whereClause)
         {
-            var obj = Items.Where(whereClause);
-
-            if (obj.Count() == 0)
-                return NotFound();
-
-            return Ok(obj);
+            return Repository.Retrieve(whereClause);
+        }
+        protected IEnumerable<ObjectType> GetMethod(FilterDefinition<ObjectType> filter)
+        {
+            return Repository.Retrieve(filter);
         }
 
         protected IHttpActionResult PostMethod([FromBody] ObjectType newObject)
         {
-            Items.Add(newObject);
+            Repository.Create(newObject);
+            var created = GetObject(newObject.Id);
 
-            var created = GetObject(newObject.ID);
-
-            return Created(string.Format("{0}/{1}", Request.RequestUri, created.ID), created);
+            return Created(string.Format("{0}/{1}", Request.RequestUri, created.Id), created);
         }
-        
-        protected IHttpActionResult PutMethod(IdentityType objectID, [FromBody] ObjectType editedObject)
-        {
-            var objectToChange = GetObject(objectID);
 
-            if (objectToChange == null)
+        protected IHttpActionResult PutMethod(string objectID, [FromBody] ObjectType editedObject)
+        {
+            return PutMethod(ObjectId.Parse(objectID), editedObject);
+        }
+        protected IHttpActionResult PutMethod(ObjectId objectID, [FromBody] ObjectType editedObject)
+        {
+            var result = Repository.Update(x => x.Id.Equals(objectID), editedObject);
+
+            if (result.ModifiedCount == 0)
                 return NotFound();
 
-            Items.Remove(objectToChange);
-            Items.Add(editedObject);
             return Ok(editedObject);
         }
 
-        private ObjectType GetObject(IdentityType objectID)
+        private ObjectType GetObject(ObjectId objectID)
         {
-            var searchedObject = Items.SingleOrDefault(x => x.ID.Equals(objectID));
-
-            return searchedObject;
+            return Repository.Retrieve(x=>x.Id.Equals(objectID)).SingleOrDefault();
         }
     }
 }

@@ -1,20 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+using System;
 
 namespace MHalas.WSI.Lab1.Models
 {
-    public class Grade: IId<int>
+    public class Grade: IId<ObjectId>
     {
-        public int ID { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
 
-        public float GradeValue { get; set; }
+        public double GradeValue { get; set; }
         public DateTime AddedDate { get; set; }
 
-        public int StudentID { get; set; }
-        public int CourseID { get; set; }
+        public MongoDBRef CourseID { get; set; }
+
+        public Grade()
+        {
+            if (Id.Equals(ObjectId.Empty))
+                Id = ObjectId.GenerateNewId();
+
+        }
     }
 }

@@ -1,17 +1,25 @@
-﻿using System;
+﻿using MHalas.WSI.Lab1.Models.Interfaces;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MHalas.WSI.Lab1.Models
 {
-    public class Student: IId<int>
+    public class Student: IStudent
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
+
+        public string Index { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
+
+        [BsonIgnoreIfDefault]
+        public List<Grade> Grades { get; set; }
+        [BsonIgnoreIfDefault]
+        public List<MongoDBRef> SignedUpCourses { get; set; }
     }
 }

@@ -1,54 +1,76 @@
 ﻿using MHalas.WSI.Lab1.Models;
+using MHalas.WSI.Lab1.Repository.Base;
+using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace MHalas.WSI.Lab1.Rest.Controllers
 {
-    [RoutePrefix("students/{studentID}/courses")]
-    public class StudentCoursesController : BaseApiController<StudentCourse, int>, IBaseController<StudentCourse, int>
+    [RoutePrefix("students/{studentIndex}")]
+    public class StudentCoursesController : BaseApiController<Student>
     {
-        private List<StudentCourse> _items = new List<StudentCourse>()
+        private BaseRepository<Course> _courseRepository = new BaseRepository<Course>(nameof(Course));
+
+        public StudentCoursesController() 
+            : base(nameof(Student))
         {
-            new StudentCourse() { ID=1, StudentID = 1, CourseID = 1 },
-            new StudentCourse() { ID=2, StudentID = 1, CourseID = 2 },
-            new StudentCourse() { ID=3, StudentID = 2, CourseID = 1 },
-        };
+        }
 
-        public override List<StudentCourse> Items
-            => _items;
-
-        [Route()]
+        [Route("courses")]
         [HttpGet]
-        public IEnumerable<StudentCourse> Get()
-            => GetMethod();
+        public IHttpActionResult GetStudentCourses(string studentIndex)
+        {
+            var student = GetMethod(x => x.Index == studentIndex).SingleOrDefault();
 
-        [Route()]
-        [HttpGet]
-        public IEnumerable<StudentCourse> GetCoursesByStudentId(int studentID)
-            => GetMethod().Where(x => x.StudentID == studentID);
+            if (student == null)
+                return NotFound();
 
-        [Route("{courseID}")]
-        [HttpGet]
-        public IEnumerable<StudentCourse> GetCoursesByStudentIdAndCourseName(int studentID, int courseID)
-            => GetMethod().Where(x => x.StudentID == studentID && x.ID == courseID);
+            var courses = _courseRepository.Retrieve(student.SignedUpCourses);
 
-        [Route()]
+            return Ok(courses);
+        }
+
+        [Route("courses")]
         [HttpPost]
-        public IHttpActionResult Post([FromBody] StudentCourse newObject)
-            => PostMethod(newObject);
+        public IHttpActionResult PostStudentCourse(string studentIndex, [FromBody]Course course)
+        {
+            try
+            {
+                var student = GetMethod(x => x.Index == studentIndex).SingleOrDefault();
 
-        [Route("{studentCourseID}")]
-        [HttpPut]
-        public IHttpActionResult Put(int studentCourseID, [FromBody] StudentCourse editedObject)
-            => PutMethod(studentCourseID, editedObject);
+                if (student == null)
+                    return NotFound();
 
-        [Route("{courseID}")]
+                student.SignedUpCourses.Add(new MongoDBRef(nameof(Course), course.Id));
+
+                return PutMethod(student.Id, student);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("courses/{courseId}")]
         [HttpDelete]
-        public StudentCourse Delete(int courseID)
-            => DeleteMethod(courseID);
+        public IHttpActionResult DeleteStudentCourse(string studentIndex, string courseId)
+        {
+            try
+            {
+                var student = GetMethod(x => x.Index == studentIndex).SingleOrDefault();
+
+                if (student == null)
+                    return NotFound();
+
+                student.SignedUpCourses.Remove(new MongoDBRef(nameof(Course), courseId));
+
+                return PutMethod(student.Id, student);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

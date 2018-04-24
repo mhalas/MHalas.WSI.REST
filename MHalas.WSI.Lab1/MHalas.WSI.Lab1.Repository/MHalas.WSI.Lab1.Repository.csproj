@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B718F18B-295C-491C-8C28-58E4E7796736}</ProjectGuid>
+    <ProjectGuid>{BC8C8EEE-8007-4D46-BCB0-4A600C599A21}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MHalas.WSI.Lab1.Models</RootNamespace>
-    <AssemblyName>MHalas.WSI.Lab1.Models</AssemblyName>
+    <RootNamespace>MHalas.WSI.Lab1.Repository</RootNamespace>
+    <AssemblyName>MHalas.WSI.Lab1.Repository</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,7 +46,7 @@
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
-    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
@@ -60,18 +60,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Grade.cs" />
-    <Compile Include="IId.cs" />
-    <Compile Include="Interfaces\IStudent.cs" />
-    <Compile Include="Interfaces\IStudentAdvanceInfo.cs" />
-    <Compile Include="Interfaces\IStudentBasicInfo.cs" />
-    <Compile Include="Student.cs" />
+    <Compile Include="Base\BaseRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Course.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MHalas.WSI.Lab1.Configuration\MHalas.WSI.Lab1.Configuration.csproj">
+      <Project>{1EB35878-702D-49EB-9FF9-926D08D368B7}</Project>
+      <Name>MHalas.WSI.Lab1.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MHalas.WSI.Lab1.Models\MHalas.WSI.Lab1.Models.csproj">
+      <Project>{B718F18B-295C-491C-8C28-58E4E7796736}</Project>
+      <Name>MHalas.WSI.Lab1.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

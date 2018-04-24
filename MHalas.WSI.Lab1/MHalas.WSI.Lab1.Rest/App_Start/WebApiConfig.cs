@@ -30,7 +30,6 @@ namespace MHalas.WSI.Lab1.Rest
                 GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
             if (Properties.Settings.Default.SupportXML)
                 GlobalConfiguration.Configuration.Formatters.Add(new XmlMediaTypeFormatter());
-
         }
     }
 }
