@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C79F2A21-9137-4502-B89C-71FC0FEEB90D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>MHalas.WSI.REST.MigrationApp</RootNamespace>
-    <AssemblyName>MHalas.WSI.REST.MigrationApp</AssemblyName>
+    <ProjectGuid>{BC8C8EEE-8007-4D46-BCB0-4A600C599A21}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MHalas.WSI.REST.Repository</RootNamespace>
+    <AssemblyName>MHalas.WSI.REST.Repository</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -48,6 +46,7 @@
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
@@ -61,26 +60,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MigrationData.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Base\BaseMockRepository.cs" />
+    <Compile Include="Base\BaseMongoRepository.cs" />
+    <Compile Include="Base\IBaseRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MHalas.WSI.Lab1.Configuration\MHalas.WSI.REST.Configuration.csproj">
+    <ProjectReference Include="..\MHalas.WSI.REST.Configuration\MHalas.WSI.REST.Configuration.csproj">
       <Project>{1EB35878-702D-49EB-9FF9-926D08D368B7}</Project>
       <Name>MHalas.WSI.REST.Configuration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MHalas.WSI.Lab1.Models\MHalas.WSI.REST.Models.csproj">
+    <ProjectReference Include="..\MHalas.WSI.REST.Models\MHalas.WSI.REST.Models.csproj">
       <Project>{B718F18B-295C-491C-8C28-58E4E7796736}</Project>
       <Name>MHalas.WSI.REST.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MHalas.WSI.Lab1.Repository\MHalas.WSI.REST.Repository.csproj">
-      <Project>{BC8C8EEE-8007-4D46-BCB0-4A600C599A21}</Project>
-      <Name>MHalas.WSI.REST.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

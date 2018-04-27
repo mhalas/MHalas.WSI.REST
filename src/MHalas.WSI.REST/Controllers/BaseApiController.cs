@@ -13,7 +13,7 @@ namespace MHalas.WSI.REST.Controllers
     public abstract class BaseApiController<ObjectType> : ApiController
         where ObjectType: IId<ObjectId>
     {
-        protected BaseMongoRepository<ObjectType> Repository { get; }
+        protected IBaseRepository<ObjectType> Repository { get; }
 
         public BaseApiController(string collectionName)
         {

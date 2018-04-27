@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C79F2A21-9137-4502-B89C-71FC0FEEB90D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MHalas.WSI.Lab1.MigrationApp</RootNamespace>
-    <AssemblyName>MHalas.WSI.Lab1.MigrationApp</AssemblyName>
+    <RootNamespace>MHalas.WSI.REST.MigrationApp</RootNamespace>
+    <AssemblyName>MHalas.WSI.REST.MigrationApp</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -70,17 +70,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MHalas.WSI.Lab1.Configuration\MHalas.WSI.Lab1.Configuration.csproj">
+    <ProjectReference Include="..\MHalas.WSI.REST.Configuration\MHalas.WSI.REST.Configuration.csproj">
       <Project>{1EB35878-702D-49EB-9FF9-926D08D368B7}</Project>
-      <Name>MHalas.WSI.Lab1.Configuration</Name>
+      <Name>MHalas.WSI.REST.Configuration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MHalas.WSI.Lab1.Models\MHalas.WSI.Lab1.Models.csproj">
+    <ProjectReference Include="..\MHalas.WSI.REST.Models\MHalas.WSI.REST.Models.csproj">
       <Project>{B718F18B-295C-491C-8C28-58E4E7796736}</Project>
-      <Name>MHalas.WSI.Lab1.Models</Name>
+      <Name>MHalas.WSI.REST.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MHalas.WSI.Lab1.Repository\MHalas.WSI.Lab1.Repository.csproj">
+    <ProjectReference Include="..\MHalas.WSI.REST.Repository\MHalas.WSI.REST.Repository.csproj">
       <Project>{BC8C8EEE-8007-4D46-BCB0-4A600C599A21}</Project>
-      <Name>MHalas.WSI.Lab1.Repository</Name>
+      <Name>MHalas.WSI.REST.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -193,11 +193,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MHalas.WSI.Lab1.Models\MHalas.WSI.REST.Models.csproj">
-      <Project>{b718f18b-295c-491c-8c28-58e4e7796736}</Project>
+    <ProjectReference Include="..\MHalas.WSI.REST.Models\MHalas.WSI.REST.Models.csproj">
+      <Project>{B718F18B-295C-491C-8C28-58E4E7796736}</Project>
       <Name>MHalas.WSI.REST.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MHalas.WSI.Lab1.Repository\MHalas.WSI.REST.Repository.csproj">
+    <ProjectReference Include="..\MHalas.WSI.REST.Repository\MHalas.WSI.REST.Repository.csproj">
       <Project>{BC8C8EEE-8007-4D46-BCB0-4A600C599A21}</Project>
       <Name>MHalas.WSI.REST.Repository</Name>
     </ProjectReference>

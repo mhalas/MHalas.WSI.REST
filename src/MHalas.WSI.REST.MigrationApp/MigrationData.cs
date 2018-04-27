@@ -56,7 +56,7 @@ namespace MHalas.WSI.REST.MigrationApp
         private void MigrateData<TModel>(List<TModel> list, string collectionName)
             where TModel: IId<ObjectId>
         {
-            BaseMongoRepository<TModel> baseRepo = new BaseMongoRepository<TModel>(collectionName);
+            IBaseRepository<TModel> baseRepo = new BaseMongoRepository<TModel>(collectionName);
             baseRepo.Create(list);
         }
         private void ResetDatabase(string connectionString, string databaseName)
