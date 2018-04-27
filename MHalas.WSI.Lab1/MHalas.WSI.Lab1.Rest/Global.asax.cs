@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace MHalas.WSI.Lab1.Rest
+namespace MHalas.WSI.REST
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

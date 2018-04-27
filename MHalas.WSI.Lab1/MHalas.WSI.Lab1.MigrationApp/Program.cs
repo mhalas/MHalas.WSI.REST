@@ -1,4 +1,4 @@
-﻿namespace MHalas.WSI.Lab1.MigrationApp
+﻿namespace MHalas.WSI.REST.MigrationApp
 {
     class Program
     {

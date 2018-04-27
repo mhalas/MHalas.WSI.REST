@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 
-namespace MHalas.WSI.Lab1.Models.Interfaces
+namespace MHalas.WSI.REST.Models.Interfaces
 {
     public interface IStudent: IId<ObjectId>, IStudentBasicInfo, IStudentAdvanceInfo
     {

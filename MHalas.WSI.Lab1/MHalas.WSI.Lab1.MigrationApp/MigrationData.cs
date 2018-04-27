@@ -1,13 +1,13 @@
-﻿using MHalas.WSI.Lab1.Configuration;
-using MHalas.WSI.Lab1.Models;
-using MHalas.WSI.Lab1.Repository.Base;
+﻿using MHalas.WSI.REST.Configuration;
+using MHalas.WSI.REST.Models;
+using MHalas.WSI.REST.Repository.Base;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MHalas.WSI.Lab1.MigrationApp
+namespace MHalas.WSI.REST.MigrationApp
 {
     public class MigrationData
     {

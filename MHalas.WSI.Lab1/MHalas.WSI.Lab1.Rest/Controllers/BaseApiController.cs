@@ -1,5 +1,5 @@
-﻿using MHalas.WSI.Lab1.Models;
-using MHalas.WSI.Lab1.Repository.Base;
+﻿using MHalas.WSI.REST.Models;
+using MHalas.WSI.REST.Repository.Base;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Http;
 
-namespace MHalas.WSI.Lab1.Rest.Controllers
+namespace MHalas.WSI.REST.Controllers
 {
     public abstract class BaseApiController<ObjectType> : ApiController
         where ObjectType: IId<ObjectId>

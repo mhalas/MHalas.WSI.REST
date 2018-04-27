@@ -1,5 +1,5 @@
-﻿using MHalas.WSI.Lab1.Models;
-using MHalas.WSI.Lab1.Repository.Base;
+﻿using MHalas.WSI.REST.Models;
+using MHalas.WSI.REST.Repository.Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace MHalas.WSI.Lab1.Test.Repository.Base
+namespace MHalas.WSI.REST.Test.Repository.Base
 {
     [TestClass]
     public class StudentRepository

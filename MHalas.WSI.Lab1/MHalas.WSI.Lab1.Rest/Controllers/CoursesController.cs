@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using MHalas.WSI.Lab1.Models;
+using MHalas.WSI.REST.Models;
 using System.Web.Http;
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace MHalas.WSI.Lab1.Rest.Controllers
+namespace MHalas.WSI.REST.Controllers
 {
     [RoutePrefix("courses")]
     public class CoursesController : BaseApiController<Course>

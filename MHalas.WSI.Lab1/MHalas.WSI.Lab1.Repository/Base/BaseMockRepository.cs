@@ -1,4 +1,4 @@
-﻿using MHalas.WSI.Lab1.Models;
+﻿using MHalas.WSI.REST.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MHalas.WSI.Lab1.Repository.Base
+namespace MHalas.WSI.REST.Repository.Base
 {
     public class BaseMockRepository<TModel> : IBaseRepository<TModel>
         where TModel : IId<ObjectId>

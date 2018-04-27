@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MHalas.WSI.Lab1.Configuration
+namespace MHalas.WSI.REST.Configuration
 {
     public static class DBConfig
     {

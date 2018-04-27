@@ -5,7 +5,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
 
-namespace MHalas.WSI.Lab1.Rest
+namespace MHalas.WSI.REST
 {
     public static class WebApiConfig
     {

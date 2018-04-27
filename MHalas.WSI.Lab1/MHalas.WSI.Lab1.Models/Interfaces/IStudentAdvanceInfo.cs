@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
 using System.Collections.Generic;
 
-namespace MHalas.WSI.Lab1.Models.Interfaces
+namespace MHalas.WSI.REST.Models.Interfaces
 {
     public interface IStudentAdvanceInfo
     {

@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace MHalas.WSI.Lab1.Models
+namespace MHalas.WSI.REST.Models
 {
     public class Course: IId<ObjectId>
     {

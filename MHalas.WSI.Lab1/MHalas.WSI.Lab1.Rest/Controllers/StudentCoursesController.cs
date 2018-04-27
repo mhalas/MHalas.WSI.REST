@@ -1,11 +1,11 @@
-﻿using MHalas.WSI.Lab1.Models;
-using MHalas.WSI.Lab1.Repository.Base;
+﻿using MHalas.WSI.REST.Models;
+using MHalas.WSI.REST.Repository.Base;
 using MongoDB.Driver;
 using System;
 using System.Linq;
 using System.Web.Http;
 
-namespace MHalas.WSI.Lab1.Rest.Controllers
+namespace MHalas.WSI.REST.Controllers
 {
     [RoutePrefix("students/{studentIndex}")]
     public class StudentCoursesController : BaseApiController<Student>

@@ -1,11 +1,11 @@
-﻿using MHalas.WSI.Lab1.Models.Interfaces;
+﻿using MHalas.WSI.REST.Models.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 
-namespace MHalas.WSI.Lab1.Models
+namespace MHalas.WSI.REST.Models
 {
     public class Student: IStudent
     {

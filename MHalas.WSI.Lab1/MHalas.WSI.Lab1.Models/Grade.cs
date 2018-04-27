@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System;
 
-namespace MHalas.WSI.Lab1.Models
+namespace MHalas.WSI.REST.Models
 {
     public class Grade: IId<ObjectId>
     {

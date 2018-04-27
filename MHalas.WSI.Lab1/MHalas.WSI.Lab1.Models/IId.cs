@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MHalas.WSI.Lab1.Models
+namespace MHalas.WSI.REST.Models
 {
     public interface IId<T>
     {

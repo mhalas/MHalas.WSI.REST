@@ -1,11 +1,11 @@
-﻿using MHalas.WSI.Lab1.Models;
+﻿using MHalas.WSI.REST.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace MHalas.WSI.Lab1.Repository.Base
+namespace MHalas.WSI.REST.Repository.Base
 {
     public interface IBaseRepository<TModel> where TModel : IId<ObjectId>
     {
