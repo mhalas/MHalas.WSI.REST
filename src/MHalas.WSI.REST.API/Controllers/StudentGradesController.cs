@@ -5,15 +5,19 @@ using System;
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MHalas.WSI.REST.Repository.Base;
 
-namespace MHalas.WSI.REST.Controllers
+namespace MHalas.WSI.Web.Controllers.API
 {
-    [RoutePrefix("students/{studentIndex}")]
+    [RoutePrefix("api/students/{studentIndex}")]
     public class StudentGradesController : BaseApiController<Student>
     {
+        private IBaseRepository<Course> _courseRepo;
+
         public StudentGradesController()
             :base(nameof(Student))
         {
+            _courseRepo = new BaseMongoRepository<Course>("course");
 
         }
 
@@ -84,18 +88,24 @@ namespace MHalas.WSI.REST.Controllers
         [HttpPost]
         public IHttpActionResult Post(string studentIndex, string courseID, [FromBody] Grade grade)
         {
-            var student = GetMethod(x => x.Index == studentIndex).SingleOrDefault();
+            ObjectId courseObjectId = ObjectId.Parse(courseID);
 
-            if (student == null)
+            var student = GetMethod(x => x.Index == studentIndex).SingleOrDefault();
+            var course = _courseRepo.Retrieve(x => x.Id == courseObjectId).SingleOrDefault();
+
+            if (student == null || course == null)
                 return NotFound();
 
             grade.Id = ObjectId.GenerateNewId();
-            grade.CourseID = new MongoDBRef(nameof(Course), ObjectId.Parse(courseID));
             grade.AddedDate = DateTime.Now;
+
+            grade.CourseID = new MongoDBRef(nameof(Course), ObjectId.Parse(courseID));
+            grade.CourseName = course.Name;
 
             student.Grades.Add(grade);
 
-            return PostMethod(student);
+            var created = PostMethod(student);
+            return Created(string.Format("{0}/{1}", Request.RequestUri, created.Id), created);
         }
 
         [Route("courses/{courseID}/grades/{gradeID}")]

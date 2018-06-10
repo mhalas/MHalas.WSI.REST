@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHalas.WSI.REST", "MHalas.WSI.REST\MHalas.WSI.REST.csproj", "{7B888A09-1B38-4226-AC03-C418B65165BD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHalas.WSI.REST.Configuration", "MHalas.WSI.REST.Configuration\MHalas.WSI.REST.Configuration.csproj", "{1EB35878-702D-49EB-9FF9-926D08D368B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHalas.WSI.REST.MigrationApp", "MHalas.WSI.REST.MigrationApp\MHalas.WSI.REST.MigrationApp.csproj", "{C79F2A21-9137-4502-B89C-71FC0FEEB90D}"
@@ -15,16 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHalas.WSI.REST.Repository"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHalas.WSI.REST.Test", "MHalas.WSI.REST.Test\MHalas.WSI.REST.Test.csproj", "{CBCB290D-8B61-4B7F-8E2F-231131B53EDE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHalas.WSI.REST.API", "MHalas.WSI.REST.API\MHalas.WSI.REST.API.csproj", "{A09DB3F5-7C5A-4BDC-944F-C52FE2C801F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7B888A09-1B38-4226-AC03-C418B65165BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B888A09-1B38-4226-AC03-C418B65165BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B888A09-1B38-4226-AC03-C418B65165BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B888A09-1B38-4226-AC03-C418B65165BD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1EB35878-702D-49EB-9FF9-926D08D368B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1EB35878-702D-49EB-9FF9-926D08D368B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EB35878-702D-49EB-9FF9-926D08D368B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{CBCB290D-8B61-4B7F-8E2F-231131B53EDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBCB290D-8B61-4B7F-8E2F-231131B53EDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBCB290D-8B61-4B7F-8E2F-231131B53EDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A09DB3F5-7C5A-4BDC-944F-C52FE2C801F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A09DB3F5-7C5A-4BDC-944F-C52FE2C801F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A09DB3F5-7C5A-4BDC-944F-C52FE2C801F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A09DB3F5-7C5A-4BDC-944F-C52FE2C801F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

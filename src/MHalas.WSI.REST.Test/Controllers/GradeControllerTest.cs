@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MHalas.WSI.Lab1.Rest.Controllers;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MHalas.WSI.Lab1.Rest.Tests.Controllers
 {

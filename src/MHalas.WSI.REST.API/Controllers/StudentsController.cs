@@ -4,9 +4,9 @@ using System;
 using System.Linq;
 using System.Web.Http;
 
-namespace MHalas.WSI.REST.Controllers
+namespace MHalas.WSI.Web.Controllers.API
 {
-    [RoutePrefix("students")]
+    [RoutePrefix("api/students")]
     public class StudentsController : BaseApiController<Student>
     {
         public StudentsController()
@@ -40,12 +40,12 @@ namespace MHalas.WSI.REST.Controllers
         public IHttpActionResult Get(string studentIndex)
         {
 
-            var list = GetMethod(x => x.Index == studentIndex);
+            var student = GetMethod(x => x.Index == studentIndex).SingleOrDefault();
 
-            if (list.Count() == 0)
+            if (student == null)
                 return NotFound();
 
-            return Ok(list);
+            return Ok(student);
         }
             
 
@@ -55,7 +55,8 @@ namespace MHalas.WSI.REST.Controllers
         {
             try
             {
-                return PostMethod(student);
+                var created = PostMethod(student);
+                return Created(string.Format("{0}/{1}", Request.RequestUri, created.Id), created);
             }
             catch(Exception ex)
             {

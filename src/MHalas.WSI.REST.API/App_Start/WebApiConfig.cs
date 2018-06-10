@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Formatting;
+﻿using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
 
-namespace MHalas.WSI.REST
+namespace MHalas.WSI.REST.API
 {
     public static class WebApiConfig
     {
@@ -26,7 +23,7 @@ namespace MHalas.WSI.REST
 
             GlobalConfiguration.Configuration.Formatters.Clear();
 
-            if(Properties.Settings.Default.SupportJson)
+            if (Properties.Settings.Default.SupportJson)
                 GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
             if (Properties.Settings.Default.SupportXML)
                 GlobalConfiguration.Configuration.Formatters.Add(new XmlMediaTypeFormatter());

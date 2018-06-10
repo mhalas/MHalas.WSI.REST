@@ -5,9 +5,9 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace MHalas.WSI.REST.Controllers
+namespace MHalas.WSI.Web.Controllers.API
 {
-    [RoutePrefix("courses")]
+    [RoutePrefix("api/courses")]
     public class CoursesController : BaseApiController<Course>
     {
         public CoursesController()
@@ -48,7 +48,10 @@ namespace MHalas.WSI.REST.Controllers
         [Route()]
         [HttpPost]
         public IHttpActionResult Post([FromBody] Course course)
-            => PostMethod(course);
+        {
+            var created = PostMethod(course);
+            return Created(string.Format("{0}/{1}", Request.RequestUri, created.Id), created);
+        }
 
         [Route("{courseID}")]
         [HttpPut]

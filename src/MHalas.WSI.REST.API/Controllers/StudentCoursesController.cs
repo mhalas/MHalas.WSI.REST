@@ -5,9 +5,9 @@ using System;
 using System.Linq;
 using System.Web.Http;
 
-namespace MHalas.WSI.REST.Controllers
+namespace MHalas.WSI.Web.Controllers.API
 {
-    [RoutePrefix("students/{studentIndex}")]
+    [RoutePrefix("api/students/{studentIndex}")]
     public class StudentCoursesController : BaseApiController<Student>
     {
         private BaseMongoRepository<Course> _courseRepository = new BaseMongoRepository<Course>(nameof(Course));

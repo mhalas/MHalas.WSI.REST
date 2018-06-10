@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MHalas.WSI.Lab1.Rest")]
+[assembly: AssemblyTitle("MHalas.WSI.REST.API")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MHalas.WSI.Lab1.Rest")]
+[assembly: AssemblyProduct("MHalas.WSI.REST.API")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4e3e8788-e3b9-4e3b-8aca-87953c10947a")]
+[assembly: Guid("4b5dd5ee-3edc-4796-b44a-8edc111d2d0b")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -103,7 +103,7 @@ namespace MHalas.WSI.REST.Repository.Base
         public virtual DeleteResult Delete(Expression<Func<TModel, bool>> filter)
         {
             StartSession();
-            return GetCollection().DeleteOne(filter);
+            return GetCollection().DeleteMany(filter);
         }
 
         public virtual UpdateResult FindOneAndUpdate(

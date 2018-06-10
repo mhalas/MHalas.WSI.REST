@@ -8,19 +8,19 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Http;
 
-namespace MHalas.WSI.REST.Controllers
+namespace MHalas.WSI.Web.Controllers.API
 {
     public abstract class BaseApiController<ObjectType> : ApiController
         where ObjectType: IId<ObjectId>
     {
-        protected IBaseRepository<ObjectType> Repository { get; }
+        public IBaseRepository<ObjectType> Repository { get; }
 
         public BaseApiController(string collectionName)
         {
             Repository = new BaseMongoRepository<ObjectType>(collectionName);
         }
 
-        protected IHttpActionResult DeleteMethod(string objectID)
+        public IHttpActionResult DeleteMethod(string objectID)
         {
             var result = Repository.Delete(x => x.Id.Equals(ObjectId.Parse(objectID)));
 
@@ -30,36 +30,36 @@ namespace MHalas.WSI.REST.Controllers
             return NotFound();
         }
 
-        protected IEnumerable<ObjectType> GetMethod()
+        public IEnumerable<ObjectType> GetMethod()
         {
             return Repository.Retrieve();
         }
-        protected IEnumerable<ObjectType> GetMethod(params MongoDBRef[] dbRefsParams)
+        public IEnumerable<ObjectType> GetMethod(params MongoDBRef[] dbRefsParams)
         {
             return Repository.Retrieve(dbRefsParams.ToList());
         }
-        protected IEnumerable<ObjectType> GetMethod(Expression<Func<ObjectType, bool>> whereClause)
+        public IEnumerable<ObjectType> GetMethod(Expression<Func<ObjectType, bool>> whereClause)
         {
             return Repository.Retrieve(whereClause);
         }
-        protected IEnumerable<ObjectType> GetMethod(FilterDefinition<ObjectType> filter)
+        public IEnumerable<ObjectType> GetMethod(FilterDefinition<ObjectType> filter)
         {
             return Repository.Retrieve(filter);
         }
 
-        protected IHttpActionResult PostMethod([FromBody] ObjectType newObject)
+        public ObjectType PostMethod([FromBody] ObjectType newObject)
         {
             Repository.Create(newObject);
             var created = GetObject(newObject.Id);
 
-            return Created(string.Format("{0}/{1}", Request.RequestUri, created.Id), created);
+            return created;
         }
 
-        protected IHttpActionResult PutMethod(string objectID, [FromBody] ObjectType editedObject)
+        public IHttpActionResult PutMethod(string objectID, [FromBody] ObjectType editedObject)
         {
             return PutMethod(ObjectId.Parse(objectID), editedObject);
         }
-        protected IHttpActionResult PutMethod(ObjectId objectID, [FromBody] ObjectType editedObject)
+        public IHttpActionResult PutMethod(ObjectId objectID, [FromBody] ObjectType editedObject)
         {
             var result = Repository.Update(x => x.Id.Equals(objectID), editedObject);
 
