@@ -1,0 +1,20 @@
+body {
+    
+}
+
+header {
+    background: red;
+    text-align: center;
+}
+
+.header-nav {
+    
+}
+
+#container {
+    background: blue;
+}
+
+footer {
+    background: green;
+}
