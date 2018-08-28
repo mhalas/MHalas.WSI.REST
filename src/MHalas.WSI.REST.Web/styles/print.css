@@ -1,0 +1,9 @@
+@media print {
+    #container-header, #container-sidenav, .add-link, footer {
+        display:none;
+    }
+
+    tr {
+        border-bottom: 2px solid black;
+    }
+}

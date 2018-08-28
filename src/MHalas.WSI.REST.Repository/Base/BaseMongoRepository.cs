@@ -73,8 +73,12 @@ namespace MHalas.WSI.REST.Repository.Base
         public virtual IEnumerable<TModel> Retrieve(List<MongoDBRef> dbRefs)
         {
             StartSession();
-            var ids = dbRefs.Select(x => x.Id);
-            return GetCollection().Find(x => ids.Any(z => z == x.Id)).ToList();
+
+            if (dbRefs == null || !dbRefs.Any())
+                return new List<TModel>();
+
+            var list = GetCollection().AsQueryable().ToList();
+            return list.Where(x => dbRefs.Any(y=>y.Id == x.Id));
         }
         public virtual IEnumerable<TModel> Retrieve(Expression<Func<TModel, bool>> filter = null)
         {

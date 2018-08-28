@@ -39,7 +39,7 @@ namespace MHalas.WSI.Web.Controllers.API
         {
             var student = GetMethod(x => x.Index == studentIndex).SingleOrDefault();
 
-            if (student == null)
+            if (student == null || student.Grades == null)
                 return NotFound();
 
             var grade = student.Grades.Where(x => x.Id == ObjectId.Parse(gradeID)).SingleOrDefault();
@@ -56,10 +56,10 @@ namespace MHalas.WSI.Web.Controllers.API
         {
             var student = GetMethod(x => x.Index == studentIndex).SingleOrDefault();
 
-            if (student == null)
+            if (student == null || student.Grades == null)
                 return NotFound();
 
-            var grades = student.Grades.Where(x => x.CourseID.Id == courseID.ToBson());
+            var grades = student.Grades.Where(x => x.CourseID.Id == ObjectId.Parse(courseID));
 
             if (grades.Count() == 0)
                 return NotFound();

@@ -1,0 +1,132 @@
+:root {
+    --color-blue1: #3D8EBF;
+    --color-blue2: #295F7F;
+    --color-blue3: #52BDFF;
+    --color-blue4: #142F40;
+    --color-blue5: #4AAAE5;
+
+    --background-linear-gradient: linear-gradient(var(--color-blue5), var(--color-blue2));
+}
+
+body {
+    font-size: 1em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header { text-align: center; }
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+main {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+main section {
+    display: none;
+}
+main section:target {
+    display: block;
+}
+
+table {
+    border-spacing: 0;
+}
+
+table tbody tr:hover {
+    background: var(--color-blue4);
+    border-style: solid;
+    border-width: 5px;
+    border-color: var(--color-blue4);
+}
+
+table tbody tr:nth-child(odd) {
+    background: var(--color-blue5);
+}
+
+input:invalid {
+    border-style: solid;
+    border-width: 1px;
+    border-color: red;
+}
+
+#container-sidenav {
+    flex: 1 100%;
+}
+
+#container-header, #container-footer {
+    flex: 1 100%;
+}
+
+.menu-element {
+    display: block;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.menu-element:visited {
+    color: inherit;
+}
+
+@media all and (min-width: 800px) {
+    #container-sidenav { width: 200px; flex: 0 auto; }
+
+    #container-content { flex: 2 0px; }
+
+    #container-header { order: 1; }
+    #container-sidenav { order: 2; }
+    #container-content    { order: 3; }
+    #container-footer  { order: 4; }
+}
+
+#container-header {
+    background-color: var(--color-blue5);
+    display: flex;
+    align-items: center;
+    font-family: Tahoma;
+}
+
+#container-sidenav {
+    background: var(--background-linear-gradient);
+    font-family: inherit;
+    font-size: 1.5em;
+    color: var(--color-blue4);
+}
+
+#container-content {
+    font-family: inherit;
+    font-size: 1.25em;
+    padding: 25px;
+}
+
+#container-footer {
+    background-color: var(--color-blue2);
+    font-family: Tahoma;
+    font-size: 0.75em;
+    padding: 10px;
+    color: var(--color-blue3);
+}
+
+#logo {
+    width: 50px;
+    object-fit: contain;
+    margin: 15px 15px 15px 0;
+}
+
+.editor {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+}
+
+.editor input {
+    font-size: 1em;
+}
+
+.editor > * {
+    margin: 10px;
+}
+
+.table-row-options {
+    display: block;
+}

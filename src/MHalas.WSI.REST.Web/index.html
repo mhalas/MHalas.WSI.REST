@@ -1,33 +1,305 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-GB">
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="styles/common.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <link rel="stylesheet" type="text/css" href="styles/icons.css">
+    <link rel="stylesheet" type="text/css" href="styles/print.css">
+
+    <script type="text/javascript" src="scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="scripts/knockout-3.4.2.js"></script>
+    <script type="text/javascript" 
+    src="scripts/knockout.mapping.js"></script>
+    <script type="text/javascript" src="scripts/mhscript.js"></script>
+
     <title>MHalas - School Infos</title>
 </head>
 <body>
-    <header>
-        <div class="title-and-logo">
-            <img class="header-logo" src="images/logo.png" />
-            <a class="header-title" href="index.html">MHALAS - School info</a>
+    <main>
+        <header id="container-header">
+            <img id="logo" src="images/logo.png" alt="Logo" />
+            <p id="title">MHALAS - School info</p>
+        </header>
+
+        <aside id="container-sidenav">
+            <nav>
+                <a class="menu-element" href="#home">Home</a>
+                <a class="menu-element" href="#students" onclick="GetStudents();">Students</a>
+                <a class="menu-element" href="#courses" onclick="GetCourses();">Courses</a>
+            </nav>
+        </aside>
+
+        <div id="container-content">
+            <section id="home">
+                <header>
+                    <h2>Home</h2>
+                </header>
+                <div class="section-body">
+                    <a href="www.google.pl">test</a>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed volutpat nisl. Suspendisse dui nunc, suscipit vel odio eu, feugiat imperdiet enim. Sed accumsan, lorem ac finibus condimentum, elit mauris egestas leo, sit amet efficitur ipsum metus in justo. In quis faucibus odio. Phasellus tempus elit ante, eu ultricies massa fermentum non. Curabitur iaculis molestie luctus. Aenean vel ante ac lectus eleifend rutrum id ac dolor. Cras in ultrices eros. Praesent sit amet ante suscipit ex tincidunt rutrum at quis tortor. Proin sit amet bibendum tortor. Nunc id consectetur sem, a luctus erat. Praesent interdum, sem in efficitur efficitur, libero nulla ultricies felis, eu dictum lorem magna maximus justo. Pellentesque ut tortor risus. Cras suscipit dolor sit amet nisl imperdiet mattis.</p>
+
+                    <p>Proin vel efficitur lectus. Quisque placerat rutrum ante ut lacinia. Aliquam posuere blandit est, quis congue lacus. Donec varius arcu id lorem suscipit aliquet. Morbi mollis, justo nec pretium tincidunt, mauris sapien vestibulum justo, et luctus risus sapien id diam. Nam maximus consectetur fermentum. Fusce ut varius orci, non egestas tortor. Vestibulum nec gravida erat, in rhoncus ante. Quisque consectetur tempus convallis. Sed at suscipit eros, nec fringilla felis. Phasellus tincidunt pharetra arcu in sollicitudin. Etiam ut libero felis. Integer et lobortis ligula, at faucibus nisi. Vivamus vel tellus gravida, maximus ante vel, consequat enim. Sed sed eleifend velit.</p>
+                    
+                    <p>Curabitur eget erat aliquet ipsum vehicula varius. Mauris efficitur augue et sapien blandit vehicula. Quisque pellentesque scelerisque imperdiet. Morbi eu facilisis ante. Praesent varius eu massa non eleifend. Sed tempor pellentesque fringilla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi porta felis at mi malesuada tempor. Pellentesque quis ex nec leo ultrices vestibulum. In hac habitasse platea dictumst. Sed ut iaculis nulla. Phasellus et ornare sapien. Mauris odio tortor, cursus in ante et, semper maximus dolor. Quisque dignissim interdum diam.</p>
+                    
+                    <p>Duis sagittis sit amet ante eu fermentum. Sed nibh massa, sodales eu tortor id, volutpat laoreet diam. Morbi varius risus at vestibulum pellentesque. Cras ornare nunc id orci accumsan, rutrum cursus dui egestas. Curabitur volutpat mi et dui placerat placerat. Ut enim dui, pretium ut lectus sed, consequat lobortis nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla tempor erat neque, ut sodales dolor luctus vitae. In id lacus non ligula blandit bibendum vel eget neque. Curabitur tincidunt placerat nibh, a dictum ligula tincidunt ut. Donec dapibus eros sit amet est pulvinar commodo. Vivamus mollis vulputate turpis in condimentum.</p>
+                </div>
+            </section>
+
+            <section id="students">
+                <header>
+                    <h2>Students</h2>
+                </header>
+                <div class="section-body">
+                    <a class="add-link" 
+                    href="#student-editor"
+                    onclick="ClearStudentEditor()">Add new student</a>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: list">
+                            <tr>
+                                <td data-bind="text: Index"></td>
+                                <td data-bind="text: FirstName"></td>
+                                <td data-bind="text: LastName"></td>
+                                <td class="icon-container-row list-options">
+                                    <a href="#student-details" 
+                                    class="details-icon" 
+                                    data-bind="attr: { 'data-index': $index }"
+                                    onclick="GetStudentDetails(this.dataset.index)"></a>
+                                    <a href="#student-courses" 
+                                    class="course-icon" 
+                                    data-bind="attr: { 'data-index': Index }"
+                                    onclick="GetStudentCourses(this.dataset.index)"></a>
+                                    <a href="#student-editor" 
+                                    class="edit-icon" 
+                                    data-bind="attr: { 'data-index': $index }"
+                                    onclick="GetStudentEditor(this.dataset.index)"></a>
+                                    <a class="delete-icon" 
+                                    onclick="DeleteStudent(this.dataset.studentindex)"
+                                    data-bind="attr: { 'data-studentindex': Index }"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <section id="courses">
+                <header>
+                    <h2>Courses</h2>
+                </header>
+                <div class="section-body">
+                    <a class="add-link" 
+                    href="#course-editor"
+                    onclick="ClearCourseEditor()">Add new course</a>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>LeadTeacher</th>
+                                <th>ECTS</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: list">
+                            <tr>
+                                <td data-bind="text: Name"></td>
+                                <td data-bind="text: LeadTeacher"></td>
+                                <td data-bind="text: ECTS"></td>
+                                <td class="icon-container-row list-options">
+                                    <a href="#course-details" 
+                                    class="details-icon" 
+                                    data-bind="attr: { 'data-index': $index }"
+                                    onclick="GetCourseDetails(this.dataset.index)"></a>
+                                    <a href="#course-editor" 
+                                    class="edit-icon" 
+                                    data-bind="attr: { 'data-index': $index }"
+                                    onclick="GetCourseEditor(this.dataset.index)"></a>
+                                    <a href="#courses" 
+                                    class="delete-icon" 
+                                    data-bind="attr: { 'data-objectid': Id }"
+                                    onclick="DeleteCourse(this.dataset.objectid)"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <section id="student-courses">
+                <header>
+                    <h2>Student courses:</h2>
+                </header>
+                <a class="add-link" 
+                href="#student-course-editor"
+                onclick="GetStudentCourseEditor()">Sign up to new course</a>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Lead Teacher</th>
+                                <th>ECTS</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: list">
+                            <tr>
+                                <td data-bind="text: Name"></td>
+                                <td data-bind="text: LeadTeacher"></td>
+                                <td data-bind="text: ECTS"></td>
+                                <td class="icon-container-row list-options">
+                                    <a href="#student-course-grades" 
+                                    class="grade-icon"
+                                    data-bind="attr: { 'data-courseid': Id }" 
+                                    onclick="GetCourseGrades(this.dataset.courseid)"></a>
+                                    <a href="#student-course-editor" class="edit-icon"></a>
+                                    <a href="#student-courses"
+                                    data-bind="attr: { 'data-courseid': Id }"
+                                    onclick="DeleteStudentCourse(this.dataset.courseid)"
+                                    class="delete-icon"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+            <section id="student-course-grades">
+                <header>
+                    <h2>Course grades:</h2>
+                </header>
+                <a class="add-link" 
+                href="#student-course-grade-editor"
+                onclick="GetStudentCourseGradeEditor()">Add new grade</a>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Added on:</th>
+                                <th>Grade</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: list">
+                            <tr>
+                                <td data-bind="text: AddedDate"></td>
+                                <td data-bind="text: GradeValue"></td>
+                                <td class="icon-container-row list-options">
+                                    <a href="#student-course-grades"
+                                    data-bind="attr: { 'data-gradeid': Id }"
+                                    onclick="DeleteStudentCourseGrade(this.dataset.courseid)"
+                                    class="delete-icon"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+
+            <section id="student-editor">
+                <header>
+                    <h2>Student editor</h2>
+                </header>
+                <form class="editor">
+                    <p>Index:</p>
+                    <input type="text" data-bind="textInput: Index" 
+                    required="required" 
+                    placeholder="Example: John"/>
+                    <p>Firstname:</p>
+                    <input type="text" 
+                    data-bind="value: FirstName"
+                    required="required" 
+                    placeholder="Example: John" />
+                    <p>Lastname:</p>
+                    <input type="text" 
+                    data-bind="value: LastName"
+                    required="required" 
+                    placeholder="Example: Doe" />
+                    <p>Birthday:</p>
+                    <input type="date" required="required" data-bind="textInput: BirthDate" />
+                    <input type="submit" value="Save">
+                </form>
+            </section>
+            <section id="student-course-editor">
+                    <header>
+                        <h2>Course editor</h2>
+                    </header>
+                    <form class="editor">
+                        <p>Course:</p>
+                        <select data-bind="options: CourseList.list,
+                            optionsText: function(item) {
+                                return item.Name;
+                            },
+                            value: Course,
+                            optionsCaption: 'Choose course...'"></select>
+                        <input type="submit" value="Save">
+                    </form>
+            </section>
+            <section id="student-course-grade-editor">
+                    <header>
+                        <h2>Add grade</h2>
+                    </header>
+                    <form class="editor">
+                        <p>Grade:</p>
+                        <input type="text" data-bind="textInput: Grade" 
+                        required="required" 
+                        placeholder="Example: 5"/>
+                        <input type="submit" value="Save">
+                    </form>
+            </section>
+            <section id="course-editor">
+                <header>
+                    <h2>Course editor</h2>
+                </header>
+                <form class="editor">
+                    <p>Name:</p>
+                    <input type="text" data-bind="textInput: Name" 
+                    required="required" 
+                    placeholder="Example: Math"/>
+                    <p>LeadTeacher:</p>
+                    <input type="text" 
+                    data-bind="value: LeadTeacher"
+                    required="required" 
+                    placeholder="Example: John Doe" />
+                    <p>ECTS:</p>
+                    <input type="text" 
+                    data-bind="numeric, value: ECTS"
+                    required="required" 
+                    placeholder="Example: 5" />
+                    <input type="button" value="Save" data-bind="click: SaveChanges">
+                </form>
+            </section>
+
+            <section id="student-details">
+                <header>
+                    <h2>Student details</h2>
+                </header>
+                <p>Index:</p><span data-bind="text: Index"></span>
+                <p>Firstname:</p><span data-bind="text: FirstName"></span>
+                <p>Lastname:</p><span data-bind="text: LastName"></span>
+                <p>Birthday:</p><span data-bind="text: BirthDate"></span>
+            </section>
+            <section id="course-details">
+                <header>
+                    <h2>Course details</h2>
+                </header>
+                <p>Name:</p><span data-bind="text: Name"></span>
+                <p>LeadTeacher:</p><span data-bind="text: LeadTeacher"></span>
+                <p>ECTS:</p><span data-bind="text: ECTS"></span>
+            </section>
         </div>
-        <nav class="header-nav">
-            <ul>
-                <li><a href="courses.html">Courses</a></li>
-                <li><a href="students.html">Students</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <div id="container">
-        gkasdhfdfhasdlfdahsflkjhasldfkjsdhfaklsjdfhalsdkjhasdkjfasdhf
-    </div>
-
-    <footer>
-            <p>&copy; 2018 Made By - MACIEJ HAŁAS Index 138553</p>
+        <footer id="container-footer">
+            <p>&copy; 2018 Made By - MACIEJ HAŁAS</p>
             <p>Index: 138553</p>
             <p>Em@ail: maciej.p.halas[at]student.put.poznan.pl</p>
+
+            <h4> Powiązane strony:</h4>
             <p><a href="https://www4.put.poznan.pl/pl">Strona uczelni</a></p>
         </footer>
+    </main>
 </body>
 </html>

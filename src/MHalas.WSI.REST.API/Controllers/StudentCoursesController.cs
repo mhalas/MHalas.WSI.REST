@@ -1,5 +1,6 @@
 ﻿using MHalas.WSI.REST.Models;
 using MHalas.WSI.REST.Repository.Base;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace MHalas.WSI.Web.Controllers.API
                 if (student == null)
                     return NotFound();
 
-                student.SignedUpCourses.Remove(new MongoDBRef(nameof(Course), courseId));
+                student.SignedUpCourses.Remove(new MongoDBRef(nameof(Course), ObjectId.Parse(courseId)));
 
                 return PutMethod(student.Id, student);
             }
