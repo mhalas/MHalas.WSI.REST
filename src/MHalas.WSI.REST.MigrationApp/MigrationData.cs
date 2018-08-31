@@ -36,9 +36,14 @@ namespace MHalas.WSI.REST.MigrationApp
                 },
                 Grades = new List<Grade>()
                 {
+                    new Grade() {GradeValue = 2, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
+                    new Grade() {GradeValue = 2.5m, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
                     new Grade() {GradeValue = 3, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
+                    new Grade() {GradeValue = 3.5m, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
                     new Grade() {GradeValue = 4, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
+                    new Grade() {GradeValue = 4.5m, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
                     new Grade() {GradeValue = 5, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
+                    new Grade() {GradeValue = 5.5m, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
                 }
             },
             new Student() { Index="11114", FirstName="DDD", LastName="AAA", BirthDate = new DateTime(2000,04,01)},

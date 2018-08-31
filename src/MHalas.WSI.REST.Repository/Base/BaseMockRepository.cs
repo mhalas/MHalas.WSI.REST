@@ -60,7 +60,7 @@ namespace MHalas.WSI.REST.Repository.Base
             throw new NotImplementedException();
         }
 
-        public ReplaceOneResult Update(Expression<Func<TModel, bool>> filter, TModel updateDefinition)
+        public UpdateResult Update(FilterDefinition<TModel> filter, UpdateDefinition<TModel> updateDefinition)
         {
             throw new NotImplementedException();
         }

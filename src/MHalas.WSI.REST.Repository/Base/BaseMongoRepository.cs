@@ -93,16 +93,13 @@ namespace MHalas.WSI.REST.Repository.Base
             StartSession();
             return GetCollection().Find(filter).ToList();
         }
-        public virtual ReplaceOneResult Update(Expression<Func<TModel, bool>> filter, TModel updateDefinition)
+        public virtual UpdateResult Update(FilterDefinition<TModel> filter, UpdateDefinition<TModel> updateDefinition)
         {
             StartSession();
             var objectToUpdate = Retrieve(filter).SingleOrDefault();
             if (objectToUpdate == null)
-                throw new Exception($"Cant find object where '{filter.Body}'.");
-
-            updateDefinition.Id = objectToUpdate.Id;
-
-            return GetCollection().ReplaceOne(filter, updateDefinition);
+                throw new Exception($"Cant find object where '{filter.ToString()}'.");
+            return GetCollection().UpdateOne(filter, updateDefinition);
         }
         public virtual DeleteResult Delete(Expression<Func<TModel, bool>> filter)
         {
@@ -125,6 +122,24 @@ namespace MHalas.WSI.REST.Repository.Base
             var filter = Builders<TModel>.Filter.Eq(x => x.Id, parentObjectId);
             var updateBuilder = Builders<TModel>.Update.Push(parentArrayExpression, item);
             return GetCollection().UpdateOne(filter, updateBuilder);
+        }
+
+        private UpdateDefinitionBuilder<TModel> GetUpdateDefinition(TModel modelToUpdate)
+        {
+            Type modelType = typeof(TModel);
+            var properties = modelType.GetProperties();
+
+            var updateBuilder = Builders<TModel>.Update;
+
+            foreach (var p in properties)
+            {
+                updateBuilder.Set(x => 
+                    x.GetType().GetProperty(p.Name), 
+                    modelType.GetProperty(p.Name).GetValue(modelToUpdate)
+                );
+            }
+
+            return updateBuilder;
         }
     }
 }

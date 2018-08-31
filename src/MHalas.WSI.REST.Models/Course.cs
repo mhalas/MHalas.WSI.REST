@@ -7,7 +7,6 @@ namespace MHalas.WSI.REST.Models
     {
         [BsonId]
         public ObjectId Id { get; set; }
-
         public string Name { get; set; }
         public string LeadTeacher { get; set; }
         public string ECTS { get; set; }

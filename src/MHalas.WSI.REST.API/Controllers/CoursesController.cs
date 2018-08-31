@@ -23,10 +23,16 @@ namespace MHalas.WSI.Web.Controllers.API
 
         [Route()]
         [HttpGet]
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(string name = null, string leadTeacher = null)
         {
-            var list = GetMethod();
+            var builder = Builders<Course>.Filter;
+            var filter = builder.Empty;
+            if (!string.IsNullOrEmpty(name))
+                filter &= builder.Eq(x => x.Name, name);
+            if (!string.IsNullOrEmpty(leadTeacher))
+                filter &= builder.Eq(x => x.LeadTeacher, leadTeacher);
 
+            var list = GetMethod(filter);
             if (list.Count() == 0)
                 return NotFound();
 
@@ -35,7 +41,7 @@ namespace MHalas.WSI.Web.Controllers.API
 
         [Route("{courseID}")]
         [HttpGet]
-        public IHttpActionResult Get(string courseID)
+        public IHttpActionResult GetCourse(string courseID)
         {
             var course = GetMethod(x=>x.Id == ObjectId.Parse(courseID));
 
@@ -56,6 +62,13 @@ namespace MHalas.WSI.Web.Controllers.API
         [Route("{courseID}")]
         [HttpPut]
         public IHttpActionResult Put(string courseID, [FromBody] Course course)
-            => PutMethod(courseID, course);
+        {
+            var updateDefinition = Builders<Course>.Update
+                .Set(x => x.LeadTeacher, course.LeadTeacher)
+                .Set(x => x.Name, course.Name)
+                .Set(x => x.ECTS, course.ECTS);
+
+            return PutMethod(courseID, updateDefinition);
+        }
     }
 }

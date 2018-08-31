@@ -55,18 +55,19 @@ namespace MHalas.WSI.Web.Controllers.API
             return created;
         }
 
-        public IHttpActionResult PutMethod(string objectID, [FromBody] ObjectType editedObject)
+        public IHttpActionResult PutMethod(string objectID, UpdateDefinition<ObjectType> updateDefinition)
         {
-            return PutMethod(ObjectId.Parse(objectID), editedObject);
+            return PutMethod(ObjectId.Parse(objectID), updateDefinition);
         }
-        public IHttpActionResult PutMethod(ObjectId objectID, [FromBody] ObjectType editedObject)
+        public IHttpActionResult PutMethod(ObjectId objectID, UpdateDefinition<ObjectType> updateDefinition)
         {
-            var result = Repository.Update(x => x.Id.Equals(objectID), editedObject);
+            var filterDefinition = Builders<ObjectType>.Filter.Eq(x => x.Id, objectID);
+            var result = Repository.Update(filterDefinition, updateDefinition);
 
             if (result.ModifiedCount == 0)
                 return NotFound();
 
-            return Ok(editedObject);
+            return Ok(result.UpsertedId);
         }
 
         private ObjectType GetObject(ObjectId objectID)

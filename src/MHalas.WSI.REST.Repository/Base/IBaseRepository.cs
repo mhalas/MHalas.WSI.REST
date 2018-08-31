@@ -18,6 +18,6 @@ namespace MHalas.WSI.REST.Repository.Base
         IEnumerable<TModel> Retrieve(FilterDefinition<TModel> filter);
         IEnumerable<TModel> Retrieve(List<MongoDBRef> dbRefs);
         bool StartSession();
-        ReplaceOneResult Update(Expression<Func<TModel, bool>> filter, TModel updateDefinition);
+        UpdateResult Update(FilterDefinition<TModel> filter, UpdateDefinition<TModel> updateDefinition);
     }
 }

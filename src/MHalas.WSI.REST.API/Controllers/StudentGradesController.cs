@@ -6,6 +6,7 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MHalas.WSI.REST.Repository.Base;
+using System.Text.RegularExpressions;
 
 namespace MHalas.WSI.Web.Controllers.API
 {
@@ -17,19 +18,26 @@ namespace MHalas.WSI.Web.Controllers.API
         public StudentGradesController()
             :base(nameof(Student))
         {
-            _courseRepo = new BaseMongoRepository<Course>("course");
+            _courseRepo = new BaseMongoRepository<Course>(nameof(Course));
 
         }
 
         [Route("grades")]
         [HttpGet]
-        public IHttpActionResult GetGradesByStudentId(string studentIndex)
+        public IHttpActionResult GetGradesByStudentId(string studentIndex, decimal? gradeFrom = null, decimal? gradeTo = null)
         {
             var student = GetMethod(x => x.Index == studentIndex).SingleOrDefault();
 
             if (student == null)
                 return NotFound();
-            
+
+            var grades = student.Grades.AsEnumerable();
+            if (gradeFrom.HasValue)
+                grades = grades.Where(x => x.GradeValue >= gradeFrom);
+            if(gradeTo.HasValue)
+                grades = grades.Where(x => x.GradeValue <= gradeTo);
+
+
             return Ok(student.Grades);
         }
 
@@ -88,12 +96,19 @@ namespace MHalas.WSI.Web.Controllers.API
         [HttpPost]
         public IHttpActionResult Post(string studentIndex, string courseID, [FromBody] Grade grade)
         {
+            var regex = new Regex(@"^[2-5]\,[05]$");
+            var gradeMatch = regex.Match(grade.GradeValue.ToString("0.0"));
+
+            if (!gradeMatch.Success)
+                throw new FormatException("Grade format is incorrect");
+
             ObjectId courseObjectId = ObjectId.Parse(courseID);
 
             var student = GetMethod(x => x.Index == studentIndex).SingleOrDefault();
             var course = _courseRepo.Retrieve(x => x.Id == courseObjectId).SingleOrDefault();
+            var studentCourse = student.SignedUpCourses.SingleOrDefault(x => x.Id == courseObjectId);
 
-            if (student == null || course == null)
+            if (student == null || course == null || studentCourse == null)
                 return NotFound();
 
             grade.Id = ObjectId.GenerateNewId();
@@ -101,11 +116,17 @@ namespace MHalas.WSI.Web.Controllers.API
 
             grade.CourseID = new MongoDBRef(nameof(Course), ObjectId.Parse(courseID));
             grade.CourseName = course.Name;
+            grade.GradeValue = grade.GradeValue;
+
+            if (student.Grades == null)
+                student.Grades = new List<Grade>();
 
             student.Grades.Add(grade);
+            
+            var updateDefinition = Builders<Student>.Update
+                .Set(x => x.Grades, student.Grades);
 
-            var created = PostMethod(student);
-            return Created(string.Format("{0}/{1}", Request.RequestUri, created.Id), created);
+            return PutMethod(student.Id, updateDefinition);
         }
 
         [Route("courses/{courseID}/grades/{gradeID}")]
@@ -123,12 +144,35 @@ namespace MHalas.WSI.Web.Controllers.API
             student.Grades.Remove(oldGrade);
             student.Grades.Add(grade);
 
-            return PutMethod(student.Id.ToString(), student);
+            var updateDefinition = Builders<Student>.Update
+                .Set(x => x.Grades, student.Grades);
+
+            return PutMethod(student.Id, updateDefinition);
         }
 
         [Route("courses/{courseID}/grades/{gradeID}")]
         [HttpDelete]
-        public IHttpActionResult Delete(string gradeID)
-            => DeleteMethod(gradeID);
+        public IHttpActionResult Delete(string studentIndex, string gradeID)
+        {
+            try
+            {
+                var student = GetMethod(x => x.Index == studentIndex).SingleOrDefault();
+
+                if (student == null)
+                    return NotFound();
+
+                var gradeToRemove = student.Grades.SingleOrDefault(x => x.Id == ObjectId.Parse(gradeID));
+                student.Grades.Remove(gradeToRemove);
+
+                var updateDefinition = Builders<Student>.Update
+                    .Set(x => x.Grades, student.Grades);
+
+                return PutMethod(student.Id, updateDefinition);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

@@ -1,9 +1,14 @@
 @media print {
-    #container-header, #container-sidenav, .add-link, footer {
+    #container-header, #container-sidenav, .tableHeaderFilter, .add-link, footer {
         display:none;
     }
 
-    tr {
-        border-bottom: 2px solid black;
+    td {
+        border-top: 2px solid black;
+        font-size: 0.8em;
+    }
+
+    th {
+        font-size: 1em;
     }
 }

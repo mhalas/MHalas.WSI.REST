@@ -3,6 +3,7 @@ using MHalas.WSI.REST.Repository.Base;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
@@ -20,21 +21,36 @@ namespace MHalas.WSI.Web.Controllers.API
 
         [Route("courses")]
         [HttpGet]
-        public IHttpActionResult GetStudentCourses(string studentIndex)
+        public IHttpActionResult GetStudentCourses(string studentIndex, string name= null, string leadTeacher = null)
         {
+
+            var builder = Builders<Course>.Filter;
+            var filter = builder.Empty;
+
+            if (!string.IsNullOrEmpty(name))
+                filter &= builder.Eq(x => x.Name, name);
+            if (!string.IsNullOrEmpty(leadTeacher))
+                filter &= builder.Eq(x => x.LeadTeacher, leadTeacher);
+
+            var filteredCourses = _courseRepository.Retrieve(filter);
             var student = GetMethod(x => x.Index == studentIndex).SingleOrDefault();
 
             if (student == null)
                 return NotFound();
 
-            var courses = _courseRepository.Retrieve(student.SignedUpCourses);
+            var studentCourses = student.SignedUpCourses;
 
-            return Ok(courses);
+            if (studentCourses == null)
+                return Ok(new List<Course>());
+
+            var result = filteredCourses.Where(fc => studentCourses.Any(sc => sc.Id == fc.Id));
+
+            return Ok(result);
         }
 
         [Route("courses")]
         [HttpPost]
-        public IHttpActionResult PostStudentCourse(string studentIndex, [FromBody]Course course)
+        public IHttpActionResult PostStudentCourse(string studentIndex, [FromBody]CourseHelper course)
         {
             try
             {
@@ -43,9 +59,15 @@ namespace MHalas.WSI.Web.Controllers.API
                 if (student == null)
                     return NotFound();
 
-                student.SignedUpCourses.Add(new MongoDBRef(nameof(Course), course.Id));
+                if (student.SignedUpCourses == null)
+                    student.SignedUpCourses = new List<MongoDBRef>();
 
-                return PutMethod(student.Id, student);
+                student.SignedUpCourses.Add(new MongoDBRef(nameof(Course), ObjectId.Parse(course.Id)));
+
+                var updateDefinition = Builders<Student>.Update
+                    .Set(x => x.SignedUpCourses, student.SignedUpCourses);
+
+                return PutMethod(student.Id, updateDefinition);
             }
             catch (Exception ex)
             {
@@ -66,12 +88,20 @@ namespace MHalas.WSI.Web.Controllers.API
 
                 student.SignedUpCourses.Remove(new MongoDBRef(nameof(Course), ObjectId.Parse(courseId)));
 
-                return PutMethod(student.Id, student);
+                var updateDefinition = Builders<Student>.Update
+                    .Set(x => x.SignedUpCourses, student.SignedUpCourses);
+
+                return PutMethod(student.Id, updateDefinition);
             }
             catch (Exception ex)
             {
                 return InternalServerError(ex);
             }
         }
+    }
+
+    public class CourseHelper
+    {
+        public string Id { get; set; }
     }
 }

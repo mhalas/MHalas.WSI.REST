@@ -59,9 +59,24 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Index</th>
-                                <th>Firstname</th>
-                                <th>Lastname</th>
+                                <th>
+                                    Index<br>
+                                    <input class="tableHeaderFilter studentsFilter" placeholder="Index filter" data-bind="textInput: IndexFilter">
+                                    <br/>
+                                </th>
+                                <th>
+                                    Firstname<br>
+                                    <input class="tableHeaderFilter studentsFilter" placeholder="Firstname filter" data-bind="textInput: FirstnameFilter">
+                                </th>
+                                <th>
+                                    Lastname<br>
+                                    <input class="tableHeaderFilter studentsFilter" placeholder="Lastname filter" data-bind="textInput: LastnameFilter">
+                                </th>
+                                <th>
+                                    Birthdate
+                                    <br><input type="date" class="tableHeaderFilter studentsFilter" data-bind="textInput: BirthDateFromFilter">
+                                    <br><input type="date" class="tableHeaderFilter studentsFilter" data-bind="textInput: BirthDateToFilter">
+                                </th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -70,6 +85,7 @@
                                 <td data-bind="text: Index"></td>
                                 <td data-bind="text: FirstName"></td>
                                 <td data-bind="text: LastName"></td>
+                                <td data-bind="text: BirthDate"></td>
                                 <td class="icon-container-row list-options">
                                     <a href="#student-details" 
                                     class="details-icon" 
@@ -103,9 +119,17 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>LeadTeacher</th>
-                                <th>ECTS</th>
+                                <th>
+                                    Name
+                                    <br /><input class="tableHeaderFilter coursesFilter" placeholder="Name filter" data-bind="textInput: NameFilter">
+                                </th>
+                                <th>
+                                    LeadTeacher
+                                    <br /><input class="tableHeaderFilter coursesFilter" placeholder="Lead teacher filter" data-bind="textInput: LeadTeacherFilter">
+                                </th>
+                                <th>
+                                    ECTS
+                                </th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -134,6 +158,7 @@
                 </div>
             </section>
             <section id="student-courses">
+                <a href="#students"><- Back</a>
                 <header>
                     <h2>Student courses:</h2>
                 </header>
@@ -143,8 +168,14 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Lead Teacher</th>
+                                <th>
+                                    Name
+                                    <br /><input class="tableHeaderFilter studentCoursesFilter" placeholder="Name filter" data-bind="textInput: NameFilter">
+                                </th>
+                                <th>
+                                    LeadTeacher
+                                    <br /><input class="tableHeaderFilter studentCoursesFilter" placeholder="Lead teacher filter" data-bind="textInput: LeadTeacherFilter">
+                                </th>
                                 <th>ECTS</th>
                                 <th></th>
                             </tr>
@@ -159,7 +190,6 @@
                                     class="grade-icon"
                                     data-bind="attr: { 'data-courseid': Id }" 
                                     onclick="GetCourseGrades(this.dataset.courseid)"></a>
-                                    <a href="#student-course-editor" class="edit-icon"></a>
                                     <a href="#student-courses"
                                     data-bind="attr: { 'data-courseid': Id }"
                                     onclick="DeleteStudentCourse(this.dataset.courseid)"
@@ -170,6 +200,7 @@
                     </table>
             </section>
             <section id="student-course-grades">
+                <a href="#student-courses"><- Back</a>
                 <header>
                     <h2>Course grades:</h2>
                 </header>
@@ -179,8 +210,10 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Added on:</th>
-                                <th>Grade</th>
+                                <th>Added on</th>
+                                <th>
+                                    Grade
+                                </th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -191,7 +224,7 @@
                                 <td class="icon-container-row list-options">
                                     <a href="#student-course-grades"
                                     data-bind="attr: { 'data-gradeid': Id }"
-                                    onclick="DeleteStudentCourseGrade(this.dataset.courseid)"
+                                    onclick="DeleteStudentCourseGrade(this.dataset.gradeid)"
                                     class="delete-icon"></a>
                                 </td>
                             </tr>
@@ -200,14 +233,20 @@
             </section>
 
             <section id="student-editor">
+                <a href="#students"><- Back</a>
                 <header>
                     <h2>Student editor</h2>
                 </header>
-                <form class="editor">
+                <form id="student-form" class="editor" onsubmit="CreateUpdateStudent()">
                     <p>Index:</p>
-                    <input type="text" data-bind="textInput: Index" 
+                    <!-- ko ifnot: isEdit -->
+                    <input type="number" data-bind="textInput: Index" 
                     required="required" 
-                    placeholder="Example: John"/>
+                    placeholder="Example: 12345"/>
+                    <!-- /ko -->
+                    <!-- ko if: isEdit -->
+                    <span data-bind="text: Index"></span>
+                    <!-- /ko -->
                     <p>Firstname:</p>
                     <input type="text" 
                     data-bind="value: FirstName"
@@ -219,42 +258,16 @@
                     required="required" 
                     placeholder="Example: Doe" />
                     <p>Birthday:</p>
-                    <input type="date" required="required" data-bind="textInput: BirthDate" />
-                    <input type="submit" value="Save">
+                    <input type="date" required="required" />
+                    <input type="submit">
                 </form>
             </section>
-            <section id="student-course-editor">
-                    <header>
-                        <h2>Course editor</h2>
-                    </header>
-                    <form class="editor">
-                        <p>Course:</p>
-                        <select data-bind="options: CourseList.list,
-                            optionsText: function(item) {
-                                return item.Name;
-                            },
-                            value: Course,
-                            optionsCaption: 'Choose course...'"></select>
-                        <input type="submit" value="Save">
-                    </form>
-            </section>
-            <section id="student-course-grade-editor">
-                    <header>
-                        <h2>Add grade</h2>
-                    </header>
-                    <form class="editor">
-                        <p>Grade:</p>
-                        <input type="text" data-bind="textInput: Grade" 
-                        required="required" 
-                        placeholder="Example: 5"/>
-                        <input type="submit" value="Save">
-                    </form>
-            </section>
             <section id="course-editor">
+                <a href="#courses"><- Back</a>
                 <header>
                     <h2>Course editor</h2>
                 </header>
-                <form class="editor">
+                <form id="course-form" class="editor" onsubmit="CreateUpdateCourse()">
                     <p>Name:</p>
                     <input type="text" data-bind="textInput: Name" 
                     required="required" 
@@ -269,11 +282,41 @@
                     data-bind="numeric, value: ECTS"
                     required="required" 
                     placeholder="Example: 5" />
-                    <input type="button" value="Save" data-bind="click: SaveChanges">
+                    <input type="submit">
+                </form>
+            </section>
+            <section id="student-course-editor">
+                <a href="#student-courses"><- Back</a>
+                <header>
+                    <h2>Course editor</h2>
+                </header>
+                <form  id="student-course-form" class="editor" onsubmit="CreateStudentCourse()">
+                    <p>Course:</p>
+                    <select data-bind="options: CourseList.list,
+                        optionsText: function(item) {
+                            return item.Name;
+                        },
+                        value: Course,
+                        optionsCaption: 'Choose course...'"></select>
+                    <input type="submit">
+                </form>
+            </section>
+            <section id="student-course-grade-editor">
+                <a href="#student-course-grades"><- Back</a>
+                <header>
+                    <h2>Grade Editor</h2>
+                </header>
+                <form id="student-course-grade-form" class="editor" onsubmit="CreateStudentCourseGrade()">
+                    <p>Grade:</p>
+                    <input name="grade" data-bind="textInput: GradeValue" 
+                    required="required" 
+                    placeholder="Example: 5"/>
+                    <input type="submit">
                 </form>
             </section>
 
             <section id="student-details">
+                <a href="#students"><- Back</a>
                 <header>
                     <h2>Student details</h2>
                 </header>
@@ -283,6 +326,7 @@
                 <p>Birthday:</p><span data-bind="text: BirthDate"></span>
             </section>
             <section id="course-details">
+                <a href="#courses"><- Back</a>
                 <header>
                     <h2>Course details</h2>
                 </header>

@@ -26,6 +26,13 @@ var StudentViewModel = function() {
   this.BirthDate = ko.observable();
   this.FirstName = ko.observable();
   this.LastName = ko.observable();
+
+  this.isEdit = ko.computed(function() {
+    if(this.Id())
+      return true;
+
+    return false
+  }, this);
 };
 var CourseViewModel = function() {
   var self = this;
@@ -35,9 +42,7 @@ var CourseViewModel = function() {
   this.LeadTeacher = ko.observable();
   this.Name = ko.observable();
 
-  this.SaveChanges = function() {
-
-  }
+  this.CourseId = ko.observable();
 };
 var GradeViewModel = function() {
   var self = this;
@@ -59,12 +64,22 @@ var StudentCourseGradeViewModel = function() {
 
   this.StudentIndex = ko.observable();
   this.CourseID = ko.observable();
-  this.Grade = ko.observable();
+  this.GradeValue = ko.observable();
 }
 var ListViewModel = function() {
   var self = this;
   this.list = ko.observableArray();
   this.parentId = ko.observable();
+
+  this.IndexFilter = ko.observable();
+  this.FirstnameFilter = ko.observable();
+  this.LastnameFilter = ko.observable();
+  this.BirthDateFromFilter = ko.observable();
+  this.BirthDateToFilter = ko.observable();
+
+  this.NameFilter = ko.observable();
+  this.LeadTeacherFilter = ko.observable();
+  this.ECTSFilter = ko.observable();
 }
 
 $(document).ready(function() {
@@ -93,6 +108,40 @@ $(document).ready(function() {
 
   ko.applyBindings(courseDetails, $("#course-details")[0]);
   ko.applyBindings(courseEditor, $("#course-editor")[0]);
+
+  $('.tableHeaderFilter').keypress(function(e){
+    if(e.which == 13){
+        $(this).blur();
+    }
+  });
+
+  $(".studentsFilter").focusout(function(){
+    GetStudents();
+  });
+  $(".coursesFilter").focusout(function(){
+    GetCourses();
+  });
+  $(".studentCoursesFilter").focusout(function(){
+    GetStudentCourses(studentCoursesList.parentId());
+  });
+
+  $('#student-form').submit(function(e) {
+    GetStudents();
+    window.location.href = '#students';
+  });
+
+  $('#course-form').submit(function(e) {
+    GetCourses();
+    window.location.href = '#courses';
+  });
+  $('#student-course-form').submit(function(e) {
+    GetStudentCourses(studentCoursesList.parentId());
+    window.location.href = '#student-courses';
+  });
+  $('#student-course-grade-form').submit(function(e) {
+    GetCourseGrades(studentCourseGradesList.parentId());
+    window.location.href = '#student-course-grades';
+  });
 });
 
 function GetDataFromAPI(controllerName, method, vm) {
@@ -100,13 +149,90 @@ function GetDataFromAPI(controllerName, method, vm) {
     method = "";
   }
 
+  var parameters = "";
+  parameters = AddParameter(parameters, "Firstname", vm.FirstnameFilter());
+  parameters = AddParameter(parameters, "Lastname", vm.LastnameFilter());
+  parameters = AddParameter(parameters, "Index", vm.IndexFilter());
+  parameters = AddParameter(parameters, "BirthdateFrom", vm.BirthDateFromFilter());
+  parameters = AddParameter(parameters, "BirthdateTo", vm.BirthDateToFilter());
+
+  parameters = AddParameter(parameters, "Name", vm.NameFilter());
+  parameters = AddParameter(parameters, "LeadTeacher", vm.LeadTeacherFilter());
+  parameters = AddParameter(parameters, "ECTS", vm.ECTSFilter());
+
   $.ajax({
-    url: protocol + serverAddress + port + apiPath + controllerName + method,
+    url: protocol + serverAddress + port + apiPath + controllerName + method + parameters,
     method: "GET",
     async: false,
     "accept": "application/json",
     success: function (data) {
       ko.mapping.fromJS(data, {}, vm.list);
+    },
+    error: function (error) {
+    }
+  });
+}
+function AddParameter(parameterString, propertyName, value) {
+  var result = "";
+
+  if(!value) {
+    return parameterString;
+  }
+
+  if(!parameterString) {
+    result = "?";
+  }
+  else {
+    result = parameterString;
+  }
+
+  if(result == "?") {
+    result = result + propertyName + "=" + value;
+  }
+  else {
+    result = result + "&" + propertyName + "=" + value;
+  }
+
+  return result;
+}
+
+function Create(controllerName, method, vm) {
+  if(!method) {
+    method = "";
+  }
+
+  var obj = ko.mapping.toJS(vm);
+  var json = JSON.stringify(obj);
+
+  $.ajax({
+    url: protocol + serverAddress + port + apiPath + controllerName + method,
+    method: "POST",
+    async: false,
+    data: json,
+    contentType: "application/json",
+    success: function (data) {
+      alert(data);
+    },
+    error: function (error) {
+    }
+  });
+}
+function Update(controllerName, method, vm, id) {
+  if(!method) {
+    method = "";
+  }
+
+  var obj = ko.mapping.toJS(vm);
+  var json = JSON.stringify(obj);
+
+  $.ajax({
+    url: protocol + serverAddress + port + apiPath + controllerName + method + "/" + id,
+    method: "PUT",
+    async: false,
+    data: json,
+    contentType: "application/json",
+    success: function (data) {
+      alert(data);
     },
     error: function (error) {
     }
@@ -126,9 +252,26 @@ function DeleteObject(path) {
     }
   });
 }
+function ClearFilter(vm) {
+  vm.IndexFilter("");
+  vm.FirstnameFilter("");
+  vm.LastnameFilter("");
+
+  vm.NameFilter("");
+  vm.LeadTeacherFilter("");
+  vm.ECTSFilter("");
+}
 
 function GetStudents() {
   GetDataFromAPI('students', null, studentsList);
+}
+function CreateUpdateStudent() {
+  if(studentEditor.Id()) {
+    Update("students", null, studentEditor, studentEditor.Index());
+  }
+  else {
+    Create("students", null, studentEditor);
+  }
 }
 function GetStudentDetails(index) {
   var vm = studentsList.list()[index];
@@ -163,6 +306,12 @@ function GetStudentCourses(index) {
   studentCoursesList);
   studentCoursesList.parentId(index);
 }
+function CreateStudentCourse() {
+  var studentId = studentCoursesList.parentId();
+  var vm = studentCourseEditor.Course;
+
+  Create("students", "/" + studentId + "/courses", vm);
+}
 function GetStudentCourseEditor() {
   studentCourseEditor.StudentIndex(studentCoursesList.parentId());
   GetCourses();
@@ -172,13 +321,20 @@ function DeleteStudentCourse(id) {
   var respond = confirm("Do you want to delete this object?");
   if(respond) {
     var studentIndex = studentCoursesList.parentId();
-    DeleteObject("students/" + studentIndex() + "/courses/"+id);
+    DeleteObject("students/" + studentIndex + "/courses/" + id);
+    GetStudentCourses(studentIndex);
   }
 }
 
 function GetStudentCourseGradeEditor() {
   studentCourseGradeEditor.StudentIndex(studentCoursesList.parentId());
   studentCourseGradeEditor.CourseID(studentCourseGradesList.parentId());
+}
+function CreateStudentCourseGrade() {
+  var studentId = studentCoursesList.parentId();
+  var courseId = studentCourseGradesList.parentId();
+  Create("students", "/" + studentId + "/courses/" + courseId + "/grades/", studentCourseGradeEditor);
+  GetCourseGrades(courseId);
 }
 function GetCourseGrades(id) {
   var studentCourseId = studentCoursesList.parentId();
@@ -191,14 +347,23 @@ function GetCourseGrades(id) {
 function DeleteStudentCourseGrade(id) {
   var respond = confirm("Do you want to delete this object?");
   if(respond) {
-    var studentIndex = studentCoursesList.parentId;
-    var courseId = studentCourseGradesList.parentId;
-    DeleteObject("students/" + studentIndex() + "/courses/"+id);
+    var studentIndex = studentCoursesList.parentId();
+    var courseId = studentCourseGradesList.parentId();
+    DeleteObject("students/" + studentIndex + "/courses/"+ courseId + "/grades/" + id);
+    GetCourseGrades(courseId);
   }
 }
 
 function GetCourses() {
   GetDataFromAPI('courses', null, coursesList);
+}
+function CreateUpdateCourse() {
+  if(courseEditor.Id()) {
+    Update("courses", null, courseEditor, courseEditor.Id());
+  }
+  else {
+    Create("courses", null, courseEditor);
+  }
 }
 function GetCourseDetails(index) {
   var vm = coursesList.list()[index];
@@ -207,6 +372,13 @@ function GetCourseDetails(index) {
 function GetCourseEditor(index) {
   var vm = coursesList.list()[index];
   MapCourseVM(courseEditor, vm);
+}
+function DeleteCourse(index) {
+  var respond = confirm("Do you want to delete this course?");
+  if(respond) {
+    DeleteObject("courses/"+index);
+    GetCourses();
+  }
 }
 function ClearCourseEditor() {
   MapCourseVM(courseEditor, new CourseViewModel());
