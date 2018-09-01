@@ -81,6 +81,10 @@ var ListViewModel = function() {
   this.LeadTeacherFilter = ko.observable();
   this.ECTSFilter = ko.observable();
 }
+var ErrorViewModel = function() {
+  this.Message = ko.observable();
+  this.ExceptionMessage = ko.observable();
+}
 
 $(document).ready(function() {
   coursesList = new ListViewModel();
@@ -169,6 +173,10 @@ function GetDataFromAPI(controllerName, method, vm) {
       ko.mapping.fromJS(data, {}, vm.list);
     },
     error: function (error) {
+      var errorVM = new ErrorViewModel();
+      var obj = JSON.parse(error.responseText);
+      ko.mapping.fromJS(obj, {}, errorVM);
+      alert(errorVM.Message() + "\n" + errorVM.ExceptionMessage());
     }
   });
 }
@@ -211,9 +219,13 @@ function Create(controllerName, method, vm) {
     data: json,
     contentType: "application/json",
     success: function (data) {
-      alert(data);
+      alert("Create success!");
     },
     error: function (error) {
+      var errorVM = new ErrorViewModel();
+      var obj = JSON.parse(error.responseText);
+      ko.mapping.fromJS(obj, {}, errorVM);
+      alert(errorVM.Message() + "\n" + errorVM.ExceptionMessage());
     }
   });
 }
@@ -232,9 +244,13 @@ function Update(controllerName, method, vm, id) {
     data: json,
     contentType: "application/json",
     success: function (data) {
-      alert(data);
+      alert("Update success!");
     },
     error: function (error) {
+      var errorVM = new ErrorViewModel();
+      var obj = JSON.parse(error.responseText);
+      ko.mapping.fromJS(obj, {}, errorVM);
+      alert(errorVM.Message() + "\n" + errorVM.ExceptionMessage());
     }
   });
 }
@@ -245,10 +261,13 @@ function DeleteObject(path) {
     async: false,
     "contentType": "application/json",
     success: function (data) {
-      alert("Object deleted.");
+      alert("Delete success.");
     },
     error: function (error) {
-      alert("Error occured while deleting.");
+      var errorVM = new ErrorViewModel();
+      var obj = JSON.parse(error.responseText);
+      ko.mapping.fromJS(obj, {}, errorVM);
+      alert(errorVM.Message() + "\n" + errorVM.ExceptionMessage());
     }
   });
 }

@@ -11,7 +11,7 @@ namespace MHalas.WSI.REST.Models
         public ObjectId Id { get; set; }
 
         public decimal GradeValue { get; set; }
-        public DateTime AddedDate { get; set; }
+        public string AddedDate { get; set; }
 
         public MongoDBRef CourseID { get; set; }
         public string CourseName { get; set; }

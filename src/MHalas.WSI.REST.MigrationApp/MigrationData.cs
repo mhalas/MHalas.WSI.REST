@@ -22,33 +22,33 @@ namespace MHalas.WSI.REST.MigrationApp
 
         private static List<Student> StudentList = new List<Student>()
         {
-            new Student() { Index="11111", FirstName="AAA", LastName="AAA", BirthDate = new DateTime(2000,01,01)},
-            new Student() { Index="11112", FirstName="BBB", LastName="XXX", BirthDate = new DateTime(2000,02,01),
+            new Student() { Index="11111", FirstName="AAA", LastName="AAA", BirthDate = new DateTime(2000,01,01).ToString("yyyy-MM-dd")},
+            new Student() { Index="11112", FirstName="BBB", LastName="XXX", BirthDate = new DateTime(2000,02,01).ToString("yyyy-MM-dd"),
                 SignedUpCourses = new List<MongoDBRef>()
                 {
                     new MongoDBRef("Course", CourseList.Where(x=>x.Name=="C# Course").Single().Id),
                     new MongoDBRef("Course", CourseList.Where(x=>x.Name=="Math").Single().Id),
                 }},
-            new Student() { Index="11113", FirstName="CCC", LastName="YYY", BirthDate = new DateTime(2000,03,01),
+            new Student() { Index="11113", FirstName="CCC", LastName="YYY", BirthDate = new DateTime(2000,03,01).ToString("yyyy-MM-dd"),
                 SignedUpCourses = new List<MongoDBRef>()
                 {
                     new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id),
                 },
                 Grades = new List<Grade>()
                 {
-                    new Grade() {GradeValue = 2, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
-                    new Grade() {GradeValue = 2.5m, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
-                    new Grade() {GradeValue = 3, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
-                    new Grade() {GradeValue = 3.5m, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
-                    new Grade() {GradeValue = 4, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
-                    new Grade() {GradeValue = 4.5m, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
-                    new Grade() {GradeValue = 5, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
-                    new Grade() {GradeValue = 5.5m, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now},
+                    new Grade() {GradeValue = 2, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now.ToString("yyyy-MM-dd")},
+                    new Grade() {GradeValue = 2.5m, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now.ToString("yyyy-MM-dd")},
+                    new Grade() {GradeValue = 3, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now.ToString("yyyy-MM-dd")},
+                    new Grade() {GradeValue = 3.5m, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now.ToString("yyyy-MM-dd")},
+                    new Grade() {GradeValue = 4, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now.ToString("yyyy-MM-dd")},
+                    new Grade() {GradeValue = 4.5m, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now.ToString("yyyy-MM-dd")},
+                    new Grade() {GradeValue = 5, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now.ToString("yyyy-MM-dd")},
+                    new Grade() {GradeValue = 5.5m, CourseID = new MongoDBRef("Course", CourseList.Where(x=>x.Name=="JAVA Course").Single().Id), AddedDate = DateTime.Now.ToString("yyyy-MM-dd")},
                 }
             },
-            new Student() { Index="11114", FirstName="DDD", LastName="AAA", BirthDate = new DateTime(2000,04,01)},
-            new Student() { Index="11115", FirstName="AAA", LastName="AAA", BirthDate = new DateTime(2000,05,01)},
-            new Student() { Index="11116", FirstName="EEE", LastName="XXX", BirthDate = new DateTime(2000,06,01)},
+            new Student() { Index="11114", FirstName="DDD", LastName="AAA", BirthDate = new DateTime(2000,04,01).ToString("yyyy-MM-dd")},
+            new Student() { Index="11115", FirstName="AAA", LastName="AAA", BirthDate = new DateTime(2000,05,01).ToString("yyyy-MM-dd")},
+            new Student() { Index="11116", FirstName="EEE", LastName="XXX", BirthDate = new DateTime(2000,06,01).ToString("yyyy-MM-dd")},
         };
 
         public void Migrate()

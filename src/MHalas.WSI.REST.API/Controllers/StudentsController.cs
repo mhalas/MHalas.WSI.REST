@@ -17,7 +17,7 @@ namespace MHalas.WSI.Web.Controllers.API
 
         [Route()]
         [HttpGet]
-        public IHttpActionResult Get(string index = null, string firstName=null, string lastname = null, DateTime? birthdateFrom = null, DateTime? birthdateTo = null)
+        public IHttpActionResult Get(string index = null, string firstName=null, string lastname = null, string birthdateFrom = null, string birthdateTo = null)
         {
             var builder = Builders<Student>.Filter;
             var filter = builder.Empty;
@@ -28,12 +28,19 @@ namespace MHalas.WSI.Web.Controllers.API
                 filter &= builder.Eq(x => x.LastName, lastname);
             if (!string.IsNullOrEmpty(index))
                 filter &= builder.Eq(x => x.Index, index);
-            if(birthdateFrom.HasValue)
-                filter &= builder.Gte(x => x.BirthDate, birthdateFrom);
-            if(birthdateTo.HasValue)
-                filter &= builder.Lte(x => x.BirthDate, birthdateTo);
 
             var list = GetMethod(filter);
+
+            if(!string.IsNullOrEmpty(birthdateFrom))
+            {
+                var dateFrom = DateTime.Parse(birthdateFrom);
+                list = list.Where(x => DateTime.Parse(x.BirthDate) >= dateFrom);
+            }
+            if (!string.IsNullOrEmpty(birthdateTo))
+            {
+                var dateTo = DateTime.Parse(birthdateTo);
+                list = list.Where(x => DateTime.Parse(x.BirthDate) <= dateTo);
+            }
 
             if (list.Count() == 0)
                 return NotFound();

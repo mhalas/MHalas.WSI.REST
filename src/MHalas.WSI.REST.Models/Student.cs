@@ -15,7 +15,7 @@ namespace MHalas.WSI.REST.Models
         public string Index { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
         [BsonIgnoreIfDefault]
         public List<Grade> Grades { get; set; }

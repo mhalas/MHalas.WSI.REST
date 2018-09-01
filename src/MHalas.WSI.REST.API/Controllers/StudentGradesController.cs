@@ -112,7 +112,7 @@ namespace MHalas.WSI.Web.Controllers.API
                 return NotFound();
 
             grade.Id = ObjectId.GenerateNewId();
-            grade.AddedDate = DateTime.Now;
+            grade.AddedDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
 
             grade.CourseID = new MongoDBRef(nameof(Course), ObjectId.Parse(courseID));
             grade.CourseName = course.Name;

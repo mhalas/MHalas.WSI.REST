@@ -63,8 +63,6 @@
     <Compile Include="Grade.cs" />
     <Compile Include="IId.cs" />
     <Compile Include="Interfaces\IStudent.cs" />
-    <Compile Include="Interfaces\IStudentAdvanceInfo.cs" />
-    <Compile Include="Interfaces\IStudentBasicInfo.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Course.cs" />
