@@ -21,14 +21,17 @@ namespace MHalas.WSI.REST.API
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            //config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue(Properties.Settings.Default.MediaTypeHeaderValue));
+            DefaultContentNegotiator defaultNegotiator = new DefaultContentNegotiator(excludeMatchOnTypeOnly: true);
+            config.Services.Replace(typeof(IContentNegotiator), defaultNegotiator);
+
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue(Properties.Settings.Default.MediaTypeHeaderValue));
 
             GlobalConfiguration.Configuration.Formatters.Clear();
 
-            GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
-            GlobalConfiguration.Configuration.Formatters.Add(new XmlMediaTypeFormatter());
-            //if (Properties.Settings.Default.SupportJson)
-            //if (Properties.Settings.Default.SupportXML)
+            if (Properties.Settings.Default.SupportJson)
+                GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
+            if (Properties.Settings.Default.SupportXML)
+                GlobalConfiguration.Configuration.Formatters.Add(new XmlMediaTypeFormatter());
         }
     }
 }
