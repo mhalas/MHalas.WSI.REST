@@ -1,15 +1,17 @@
-﻿using MHalas.WSI.REST.Models.Interfaces;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace MHalas.WSI.REST.Models
 {
-    public class Student: IStudent
+    public class Student: IId<ObjectId>
     {
         [BsonId]
+        [XmlIgnore]
+        [IgnoreDataMember]
         public ObjectId Id { get; set; }
 
         public string Index { get; set; }
