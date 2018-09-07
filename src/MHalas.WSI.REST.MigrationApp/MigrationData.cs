@@ -56,6 +56,19 @@ namespace MHalas.WSI.REST.MigrationApp
             ResetDatabase(DBConfig.ConnectionString, DBConfig.DatabaseName);
             MigrateData(CourseList, "Course");
             MigrateData(StudentList, "Student");
+
+            CreateUniqueIndex();
+        }
+
+        private void CreateUniqueIndex()
+        {
+            IBaseRepository<Student> baseRepo = new BaseMongoRepository<Student>("Student");
+            var collection = baseRepo.GetCollection();
+
+            collection.Indexes.CreateOne(new CreateIndexModel<Student>(Builders<Student>.IndexKeys.Ascending(i => i.Index), new CreateIndexOptions<Student>
+            {
+                Unique = true
+            }));
         }
 
         private void MigrateData<TModel>(List<TModel> list, string collectionName)
