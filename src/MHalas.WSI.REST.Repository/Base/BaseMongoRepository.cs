@@ -38,7 +38,7 @@ namespace MHalas.WSI.REST.Repository.Base
         }
 
 
-        private IMongoCollection<TModel> GetCollection()
+        public IMongoCollection<TModel> GetCollection()
         {
             StartSession();
             return _client.GetDatabase(_databaseName).GetCollection<TModel>(_collectionName);

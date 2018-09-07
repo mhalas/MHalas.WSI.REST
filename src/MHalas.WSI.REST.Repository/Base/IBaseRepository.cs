@@ -9,6 +9,7 @@ namespace MHalas.WSI.REST.Repository.Base
 {
     public interface IBaseRepository<TModel> where TModel : IId<ObjectId>
     {
+        IMongoCollection<TModel> GetCollection();
         void Create(List<TModel> list);
         void Create(TModel newObject);
         DeleteResult Delete(Expression<Func<TModel, bool>> filter);
