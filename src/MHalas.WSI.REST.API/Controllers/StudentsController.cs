@@ -45,7 +45,15 @@ namespace MHalas.WSI.Web.Controllers.API
             if (list.Count() == 0)
                 return NotFound();
 
-            return Ok(list);
+            return Ok(list.Select(x=>
+                new StudentDetails()
+                {
+                    Index = x.Index,
+                    BirthDate = x.BirthDate,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                }
+            ));
         }
 
         [Route("{studentIndex}")]
@@ -58,7 +66,15 @@ namespace MHalas.WSI.Web.Controllers.API
             if (student == null)
                 return NotFound();
 
-            return Ok(student);
+            var studentDetails = new StudentDetails()
+            {
+                Index = student.Index,
+                BirthDate = student.BirthDate,
+                FirstName = student.FirstName,
+                LastName = student.LastName
+            };
+
+            return Ok(studentDetails);
         }
             
 
@@ -68,6 +84,16 @@ namespace MHalas.WSI.Web.Controllers.API
         {
             try
             {
+                var builder = Builders<Student>.Filter;
+                var filter = builder.Empty;
+                if (!string.IsNullOrEmpty(student.Index))
+                    filter &= builder.Eq(x => x.Index, student.Index);
+
+                var isStudentExists = GetMethod(filter).Any();
+
+                if (isStudentExists)
+                    return BadRequest("Student with index " + student.Index + " exists.");
+
                 var created = PostMethod(student);
                 return Created(string.Format("{0}/{1}", Request.RequestUri, created.Id), created);
             }

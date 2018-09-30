@@ -38,7 +38,7 @@ namespace MHalas.WSI.Web.Controllers.API
                 grades = grades.Where(x => x.GradeValue <= gradeTo);
 
 
-            return Ok(student.Grades);
+            return Ok(grades);
         }
 
         [Route("grades/{gradeID}")]
@@ -100,7 +100,7 @@ namespace MHalas.WSI.Web.Controllers.API
             var gradeMatch = regex.Match(grade.GradeValue.ToString("0.0"));
 
             if (!gradeMatch.Success)
-                throw new FormatException("Grade format is incorrect");
+                return BadRequest("Grade format is incorrect");
 
             ObjectId courseObjectId = ObjectId.Parse(courseID);
 

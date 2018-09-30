@@ -20,18 +20,22 @@ var courseDetails;
 var StudentViewModel = function() {
   var self = this;
 
-  this.Id = ko.observable();
   this.Index = ko.observable();
   this.Grades = ko.observable();
   this.BirthDate = ko.observable();
   this.FirstName = ko.observable();
   this.LastName = ko.observable();
 
+  this.IsNew = ko.observable();
   this.isEdit = ko.computed(function() {
-    if(this.Id())
+    if(this.Index() && (this.IsNew().length > 0 || this.IsNew() == false)) {
+      this.IsNew(false);
       return true;
-
-    return false
+    }
+    else {
+      this.IsNew(true);
+      return false;
+    }
   }, this);
 };
 var CourseViewModel = function() {
@@ -285,11 +289,11 @@ function GetStudents() {
   GetDataFromAPI('students', null, studentsList);
 }
 function CreateUpdateStudent() {
-  if(studentEditor.Id()) {
-    Update("students", null, studentEditor, studentEditor.Index());
+  if(studentEditor.IsNew() == true) {
+    Create("students", null, studentEditor);
   }
   else {
-    Create("students", null, studentEditor);
+    Update("students", null, studentEditor, studentEditor.Index());
   }
 }
 function GetStudentDetails(index) {
@@ -297,6 +301,7 @@ function GetStudentDetails(index) {
   MapStudentVM(studentDetails, vm);
 }
 function GetStudentEditor(index) {
+  studentEditor.IsNew(false);
   var vm = studentsList.list()[index];
   MapStudentVM(studentEditor, vm);
 }
@@ -311,7 +316,6 @@ function DeleteStudent(index) {
   }
 }
 function MapStudentVM(vm1, vm2) {
-  vm1.Id(vm2.Id());
   vm1.Index(vm2.Index());
   vm1.Grades(vm2.Grades());
   vm1.BirthDate(vm2.BirthDate());
